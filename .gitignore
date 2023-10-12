@@ -1,4 +1,5 @@
 .env
 godot-cpp
 SConstruct
-mono_crash
+mono_crash*
+settings.json

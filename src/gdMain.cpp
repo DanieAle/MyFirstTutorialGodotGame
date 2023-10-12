@@ -7,6 +7,7 @@ void GDMyMain::_register_methods() {
     register_method("_input", &GDMyMain::_input);
 
     register_property<GDMyMain, float>("speed", &GDMyMain::speed, 20.0);
+
     register_signal<GDMyMain>((char *)"key_pressed","node",GODOT_VARIANT_TYPE_OBJECT,"new_pose",GODOT_VARIANT_TYPE_VECTOR2);
 }
 
@@ -29,17 +30,7 @@ void GDMyMain::_init() {
 
 void GDMyMain::_process(float delta) {
     //Godot::print("Entrando a _process...GDMyMain");
-    Vector2 movement(0,0);
-
-    if(key_h != 0 && key_v != 0){
-        movement += Vector2(key_h,key_v);
-    }
-    else if(key_v != 0){
-        movement.y += key_v;
-    }
-    else if(key_h != 0){
-        movement.x += key_h;
-    }
+    Vector2 movement(key_h,key_v);
 
     movement = movement.normalized() * speed * delta;
     
@@ -55,6 +46,12 @@ void GDMyMain::_input(const Ref<InputEvent> event) {
             // Realiza acciones en función del código de tecla presionado
             // Realiza acciones específicas para la tecla 'A'
             myIsPressed(key_code);
+        }
+        else if(key_event->is_action_released("tl_h_liberada")){
+            key_h = 0;
+        }
+        else if(key_event->is_action_released("tl_v_liberada")){
+            key_v = 0;
         }
     }
 }
@@ -78,13 +75,14 @@ void GDMyMain::myIsPressed(int key_code){
                     break;
             }
 }
-void GDMyMain::continuePressed(int key){
-    switch (key != 0)
-    {
-    case false:
-        break;
-    
-    default:
-        break;
+bool continPressed(int keys[3],int key){
+    bool pressed = false;
+    int i = 0;
+    while(!pressed && i<4){
+        if(keys[i] == key){
+            pressed =true;
+        }
+        i++;
     }
+    return pressed;
 }
