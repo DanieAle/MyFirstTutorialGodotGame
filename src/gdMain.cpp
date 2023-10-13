@@ -5,6 +5,7 @@ using namespace godot;
 void GDMyMain::_register_methods() {
     register_method("_process", &GDMyMain::_process);
     register_method("_input", &GDMyMain::_input);
+    register_method("_ready", &GDMyMain::_ready);
 
     register_property<GDMyMain, float>("speed", &GDMyMain::speed, 20.0);
 
@@ -12,6 +13,7 @@ void GDMyMain::_register_methods() {
 }
 
 GDMyMain::GDMyMain() {
+    
 }
 
 GDMyMain::~GDMyMain() {
@@ -25,17 +27,31 @@ void GDMyMain::_init() {
     speed = 50.0;
     key_h = 0;
     key_v = 0;
+    //sprite_animated = get_node<AnimatedSprite>("/root/Main/Body2d/Sprite/AnimatedSpritePlayer");
+    //Godot::print(name);
     Godot::print("Finalizando init GDMyMain...");
+}
+void GDMyMain::_ready() {
+    sprite_animated = get_node<AnimatedSprite>("/root/Main/Body2d/Sprite/AnimatedSpritePlayer");
+    // Realiza inicializaciones aquí.
 }
 
 void GDMyMain::_process(float delta) {
     //Godot::print("Entrando a _process...GDMyMain");
+    //Godot::print(get_path());
     Vector2 movement(key_h,key_v);
 
     movement = movement.normalized() * speed * delta;
     
     // Aplica el movimiento a la posición actual.
+    if(key_v != 0){
+        sprite_animated->play("up");
+    }
+    else if(key_h != 0){
+        sprite_animated->play("walk");
+    }
     set_position(get_position() + movement);
+    
 }
 
 void GDMyMain::_input(const Ref<InputEvent> event) {
@@ -49,9 +65,11 @@ void GDMyMain::_input(const Ref<InputEvent> event) {
         }
         else if(key_event->is_action_released("tl_h_liberada")){
             key_h = 0;
+            sprite_animated->set_rotation_degrees(0);
         }
         else if(key_event->is_action_released("tl_v_liberada")){
             key_v = 0;
+            sprite_animated->set_rotation_degrees(0);
         }
     }
 }
@@ -60,29 +78,40 @@ void GDMyMain::myIsPressed(int key_code){
                 case 65:
                     Godot::print("Tecla 'A' presionada.");
                     key_h = -1;
+                    sprite_animated->set_flip_h(true);
+                    if(key_v == -1){
+                        sprite_animated->set_rotation_degrees(-30);
+                    }
+                    else if(key_v == 1){
+                        sprite_animated->set_rotation_degrees(30);
+                    }
                     break;
                 case 83:
                     Godot::print("Tecla 'S' presionada.");
                     key_v = 1;
+                    sprite_animated->set_flip_v(true);
+                    if(key_h != 0){
+                        sprite_animated->set_rotation_degrees(30);
+                    }
                     break;
                 case 87:
                     Godot::print("Tecla 'W' presionada.");
                     key_v =-1;
+                    sprite_animated->set_flip_v(false);
+                    if(key_h != 0){
+                        sprite_animated->set_rotation_degrees(30);
+                    }
                     break;
                 case 68:
                     Godot::print("Tecla 'D' presionada.");
                     key_h = 1;
+                    sprite_animated->set_flip_h(false);
+                    if(key_v == -1){
+                        sprite_animated->set_rotation_degrees(30);
+                    }
+                    else if(key_v == 1){
+                        sprite_animated->set_rotation_degrees(-30);
+                    }
                     break;
             }
-}
-bool continPressed(int keys[3],int key){
-    bool pressed = false;
-    int i = 0;
-    while(!pressed && i<4){
-        if(keys[i] == key){
-            pressed =true;
-        }
-        i++;
-    }
-    return pressed;
 }
