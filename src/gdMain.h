@@ -11,7 +11,6 @@ namespace godot {
 
 class GDMyMain : public Sprite {
     GODOT_CLASS(GDMyMain, Sprite)
-
 private:
     float time_passed;
     float speed;
@@ -22,7 +21,6 @@ private:
     String name;
 public:
     static void _register_methods();
-    void myIsPressed(int key_code);
 
     GDMyMain();
     ~GDMyMain();
@@ -31,6 +29,9 @@ public:
     void _init(); // our initializer called by Godot
     void _input(const Ref<InputEvent>);
     void _process(float delta);
+    void handleKeyH(bool rightOrLeft);
+    void handleKeyY(bool rightOrLeft);
+    void myIsPressed(int key_code);
 };
 
 }
