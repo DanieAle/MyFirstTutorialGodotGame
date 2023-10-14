@@ -15,6 +15,7 @@ _data = {
 
 [node name="Sprite" type="Sprite" parent="."]
 script = ExtResource( 1 )
+speed = 50.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Sprite"]
 frames = ExtResource( 2 )
