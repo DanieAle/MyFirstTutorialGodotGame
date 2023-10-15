@@ -26,7 +26,6 @@ void GDMyMain::_init() {
 }
 void GDMyMain::_ready() {
     sprite_animated = Object::cast_to<AnimatedSprite>(get_child(get_child_count()-1));
-    connect("key_pressed", this, "_on_key_pressed");
     // Realiza inicializaciones aquí.
 }
 

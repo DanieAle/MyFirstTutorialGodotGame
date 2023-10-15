@@ -5,7 +5,6 @@ using namespace godot;
 void GDMainNode::_register_methods(){
     register_method("_ready", &GDMainNode::_ready);
     register_method("_init", &GDMainNode::_init);
-    register_method("_process", &GDMainNode::_process);
     register_method("_is_dead", &GDMainNode::_is_dead);
     register_method("_start_game", &GDMainNode::_start_game);
 
@@ -27,17 +26,16 @@ void GDMainNode::_ready(){
         create_enemy();
     }
     view = get_viewport();
-    view->set_size_override(true,Vector2(800, 600)); 
+    view->set_size_override(true,Vector2(400, 600)); 
     myControl = Object::cast_to<Control>(get_child(8));
     if(myControl){
         myControl->connect("_start_game",this,"_start_game");
     }
+    audio = Object::cast_to<AudioStreamPlayer>(get_child(9));
+    audio_defeat = Object::cast_to<AudioStreamPlayer>(get_child(10));
 }
 void GDMainNode::_init(){
     Godot::print("Main Init...");
-}
-void GDMainNode::_process(float delta){
-
 }
 
 void GDMainNode::_is_dead(String name){
@@ -45,6 +43,8 @@ void GDMainNode::_is_dead(String name){
     if(name == "KinematicBody2D"){
         _set_visibleAll(false);
         emit_signal("_defeat");
+        audio->stop();
+        audio_defeat->play();
     }
 }
 void GDMainNode::create_enemy(){
@@ -56,6 +56,8 @@ void GDMainNode::create_enemy(){
 }
 void GDMainNode::_start_game(bool play){
     Godot::print("Play");
+    audio_defeat->stop();
+    audio->play();
     _set_visibleAll(play);
 
 }

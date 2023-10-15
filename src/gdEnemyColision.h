@@ -17,7 +17,7 @@ private:
     int max_x;
     int max_y;
     Rect2 rec;
-    int velocidades[4] = {300,500,600,800};
+    int velocidades[4] = {150,200,250,350};
     int direcciones1[2] = {1,-1};
     bool direcciones2[2] = {true,false};
     String animations[3] = {"walk","swimming","flying"};

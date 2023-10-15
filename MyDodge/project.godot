@@ -14,6 +14,15 @@ config/name="MyDodge"
 run/main_scene="res://bin/Main.tscn"
 config/icon="res://icon.png"
 
+[audio]
+
+default_bus_layout="res://assets/Sound/background.tres"
+
+[display]
+
+window/size/width=400
+window/size/resizable=false
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true

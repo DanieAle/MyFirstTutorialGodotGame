@@ -8,10 +8,10 @@ void GDEnemyColision:: _register_methods(){
     register_method("_init", &GDEnemyColision::_init);
     register_method("_setEnabled", &GDEnemyColision::_setEnabled);
     
-    register_property<GDEnemyColision, float>("speed", &GDEnemyColision::speed, 300.0);
 
     register_signal<GDEnemyColision>((char *)"change_animation","direction"
         ,GODOT_VARIANT_TYPE_INT, "rotation",GODOT_VARIANT_TYPE_INT,"animation",GODOT_VARIANT_TYPE_STRING);
+    register_signal<GDEnemyColision, String>((char*)"collision","name",GODOT_VARIANT_TYPE_STRING);
 }
 GDEnemyColision::GDEnemyColision(){
 }
@@ -33,6 +33,7 @@ void GDEnemyColision::_ready(){
     srand(time(0));
     confgEnemy();
     body_enabled = false;
+    connect("collision", get_parent(),"_is_dead");
 }
 
 void GDEnemyColision::_physics_process(float delta){
@@ -48,13 +49,21 @@ void GDEnemyColision::_physics_process(float delta){
         Vector2 position = movement * speed * delta;
     
         move_and_collide(position);
+        Ref<KinematicCollision2D> collision = move_and_collide(position);
+        if(collision.is_valid()){
+    // Ahora puedes usar esta información según tus necesidades.
+            String nombre = collision->get_collider()->get_class();
+        //Godot::print("Colisión con: " + nombre);
+            emit_signal("collision",nombre);
+    // Por ejemplo, verifica el nombre del nodo con el que colisionó.
+        }
         isOfScreen(get_position());
     }
 }
 void GDEnemyColision::_init(){
     Godot::print("Init ....");
     time_passed = 0.0;
-    speed = 300.0;
+    speed = 100.0;
 }
 void GDEnemyColision::confgEnemy(){
     int num = random(2);
@@ -107,7 +116,7 @@ void GDEnemyColision::HowWillMove(){
     }
     else{
         pos_inicial_y = new_pos_Inicial(direccion,10,100,rec.size.y);
-        pos_inicial_x = 10 + (std::rand() % (900 - 10 + 1));
+        pos_inicial_x = 10 + (std::rand() % (400 - 10 + 1));
         rotation = 90;
     }
     emit_signal("change_animation",direccion,rotation,animation_selected);

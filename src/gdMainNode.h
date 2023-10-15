@@ -10,6 +10,7 @@
 #include <Viewport.hpp>
 #include <Control.hpp>
 #include <SceneTree.hpp>
+#include <AudioStreamPlayer.hpp>
 
 namespace godot {
 
@@ -20,6 +21,9 @@ private:
     Viewport *view;
     Control *myControl;
     KinematicBody2D *myPlayer;
+    AudioStreamPlayer *audio;
+    AudioStreamPlayer *audio_defeat;
+
 public:
     static void _register_methods();
 
@@ -27,7 +31,6 @@ public:
     ~GDMainNode();
 
     void _ready();
-    void _process(float delta);
     void _init();
     
     void _is_dead(String name);

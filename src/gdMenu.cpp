@@ -5,6 +5,7 @@ using namespace godot;
 void GDMenu::_register_methods(){
     register_method("_ready", &GDMenu::_ready);
     register_method("_init", &GDMenu::_init);
+    register_method("_process", &GDMenu::_process);
     register_method("_button_down", &GDMenu::_button_down);
     register_method("_time_end", &GDMenu::_time_end);
     register_method("_game_Over", &GDMenu::_game_Over);
@@ -31,9 +32,19 @@ void GDMenu::_ready(){
     myTimer2 = Object::cast_to<Timer>(get_child(3));
     myTimer2->connect("timeout", this, "_restart");
     get_parent()->connect("_defeat", this, "_game_Over");
+    myLabel2 = Object::cast_to<Label>(get_child(4));
 }
 void GDMenu::_init(){
     Godot::print("Menu Init...");
+    tiempo_transcurrido = 0.0;
+    start = false;
+}
+void GDMenu::_process(float delta){
+    if(start){
+        tiempo_transcurrido += delta;
+        int segundos = int(tiempo_transcurrido);
+        myLabel2->set_text(String::num(segundos));
+    }
 }
 
 void GDMenu::_button_down(){
@@ -44,9 +55,13 @@ void GDMenu::_button_down(){
 }
 void GDMenu::_time_end(){
     myLabel->set_visible(false);
+    start = true;
     emit_signal("_start_game", true);
 }
 void GDMenu::_game_Over(){
+    myLabel2->set_text("0");
+    start = false;
+    tiempo_transcurrido = 0.0;
     myLabel->set_text(myTitles[2]);
     myLabel->set_visible(true);
     myTimer2->start();

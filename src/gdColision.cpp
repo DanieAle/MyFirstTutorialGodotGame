@@ -141,4 +141,6 @@ void GDColision::isEnabled_movement(float delta){
 void GDColision::_setEnabled(bool value){
     body_enabled = value;
     set_position(start_position);
+    key_h = 0;
+    key_v = 0;
 }
