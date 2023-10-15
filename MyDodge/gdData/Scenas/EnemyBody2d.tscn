@@ -2,16 +2,13 @@
 
 [ext_resource path="res://bin/NativeScriptGDEnemy.gdns" type="Script" id=1]
 [ext_resource path="res://gdData/animation/Resource/Enemy_Frames.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://bin/NativeScriptGDColision.gdns" type="Script" id=3]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 45.0
 
-[sub_resource type="Curve2D" id=3]
-_data = {
-"points": PoolVector2Array(  )
-}
-
 [node name="EnemyBody2d" type="KinematicBody2D"]
+script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 script = ExtResource( 1 )
@@ -25,6 +22,3 @@ animation = "walk"
 position = Vector2( 10, 0 )
 rotation = 1.5708
 shape = SubResource( 2 )
-
-[node name="Path2D" type="Path2D" parent="."]
-curve = SubResource( 3 )

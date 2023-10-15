@@ -58,7 +58,7 @@ void GDEnemy::confgEnemy(){
 
     resetAnimations();
     HowWillMove();
-    Godot::print("Posicion x:");
+    /*Godot::print("Posicion x:");
     Godot::print(String::num(pos_inicial_x));
     Godot::print("Posicion y:");
     Godot::print(String::num(pos_inicial_y));
@@ -66,7 +66,7 @@ void GDEnemy::confgEnemy(){
     String prueba = isHorizontal ? "true" : "false";
     Godot::print(prueba);
     Godot::print("Direccion:");
-    Godot::print(String::num(direccion));
+    Godot::print(String::num(direccion));*/
     set_position(Vector2(pos_inicial_x,pos_inicial_y));
     sprite_animated->play(animation_selected);
 }
@@ -83,7 +83,7 @@ int GDEnemy::new_pos_Inicial(int direccion,int min, int max,int limit){
         case -1:
             int new_max = max + limit;
             int new_min = limit;
-            Godot::print(String::num(new_min));
+            //Godot::print(String::num(new_min));
             pos = new_min - (std::rand() % (new_max - new_min + 1));
             sprite_animated->set_flip_h(true);
             break;

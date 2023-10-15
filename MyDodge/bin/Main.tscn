@@ -6,5 +6,10 @@
 [node name="Main" type="Node2D"]
 
 [node name="PlayerBody2d" parent="." instance=ExtResource( 1 )]
+collision_mask = 2
+collision/safe_margin = 1.0
+player = false
 
 [node name="EnemyBody2d" parent="." instance=ExtResource( 2 )]
+collision_mask = 2
+collision/safe_margin = 1.0
