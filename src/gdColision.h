@@ -13,6 +13,7 @@ namespace godot {
 class GDColision : public KinematicBody2D {
     GODOT_CLASS(GDColision, KinematicBody2D)
 private:
+    Vector2 start_position;
     bool player;
     float time_passed;
     float speed;
@@ -21,6 +22,7 @@ private:
     Ref<InputEventKey> key_event;
     String name;
     Sprite *sprite;
+    bool body_enabled;
 public:
     static void _register_methods();
 
@@ -36,7 +38,8 @@ public:
     void handleKeyY(bool rightOrLeft);
     void myIsPressed(int key_code);
     void isHorizontal(int num);
-    void isOut();
+    void isEnabled_movement(float delta);
+    void _setEnabled(bool value);
 
 };
 

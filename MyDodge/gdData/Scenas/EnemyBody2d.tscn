@@ -8,6 +8,8 @@
 radius = 45.0
 
 [node name="EnemyBody2d" type="KinematicBody2D"]
+scale = Vector2( 0.25, 0.25 )
+collision_mask = 0
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]

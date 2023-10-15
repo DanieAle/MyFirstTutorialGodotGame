@@ -6,6 +6,7 @@ void GDEnemyColision:: _register_methods(){
     register_method("_ready", &GDEnemyColision::_ready);
     register_method("_physics_process", &GDEnemyColision::_physics_process);
     register_method("_init", &GDEnemyColision::_init);
+    register_method("_setEnabled", &GDEnemyColision::_setEnabled);
     
     register_property<GDEnemyColision, float>("speed", &GDEnemyColision::speed, 300.0);
 
@@ -31,21 +32,24 @@ void GDEnemyColision::_ready(){
     }
     srand(time(0));
     confgEnemy();
+    body_enabled = false;
 }
 
 void GDEnemyColision::_physics_process(float delta){
     //Godot::print("Fisicas ....");
-    Vector2 movement;
-    if(isHorizontal){
+    if(body_enabled){
+        Vector2 movement;
+        if(isHorizontal){
         movement = Vector2(direccion,0);
-    }
-    else{
+        }
+        else{
         movement = Vector2(0,direccion);
-    }
-    Vector2 position = movement * speed * delta;
+        }
+        Vector2 position = movement * speed * delta;
     
-    move_and_collide(position);
-    isOfScreen(get_position());
+        move_and_collide(position);
+        isOfScreen(get_position());
+    }
 }
 void GDEnemyColision::_init(){
     Godot::print("Init ....");
@@ -132,4 +136,8 @@ void GDEnemyColision::isOfScreen(Vector2 position){
     if(isOut){
         confgEnemy();
     }
+}
+void GDEnemyColision::_setEnabled(bool value){
+    body_enabled = value;
+    confgEnemy();
 }

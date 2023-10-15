@@ -27,6 +27,7 @@ private:
     int pos_inicial_x;
     int pos_inicial_y;
     Sprite *sprite;
+    bool body_enabled;
 public:
     static void _register_methods();
     
@@ -42,6 +43,7 @@ public:
     void HowWillMove();
     int random(int n);
     void isOfScreen(Vector2 position);
+    void _setEnabled(bool value);
 
 
 };

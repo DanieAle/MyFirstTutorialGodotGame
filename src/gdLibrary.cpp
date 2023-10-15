@@ -4,6 +4,7 @@
 #include "gdColision.h"
 #include "gdEnemyColision.h"
 #include "gdMainNode.h"
+#include "gdMenu.h"
 
 
 extern "C" void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *o) {
@@ -23,4 +24,5 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
     godot::register_class<godot::GDColision>();
     godot::register_class<godot::GDEnemyColision>();
     godot::register_class<godot::GDMainNode>();
+    godot::register_class<godot::GDMenu>();
 }

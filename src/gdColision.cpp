@@ -7,8 +7,8 @@ void GDColision:: _register_methods(){
     register_method("_physics_process", &GDColision::_physics_process);
     register_method("_init", &GDColision::_init);
     register_method("_input", &GDColision::_input);
+    register_method("_setEnabled", &GDColision::_setEnabled);
     
-    register_property<GDColision, float>("speed", &GDColision::speed, 300.0);
     register_property<GDColision, bool>("player", &GDColision::player, false);
 
     register_signal<GDColision, bool>((char *)"key_pressed",
@@ -23,34 +23,25 @@ GDColision::~GDColision(){
 }
 
 void GDColision::_ready(){
-    Godot::print("Ready...");
+    Godot::print("Ready...GDColision");
     set_physics_process(true);
     int64_t index = 0;
     sprite = Object::cast_to<Sprite>(get_child(index)); // Cambia "path_to_sprite" al camino real en tu escena
     if (sprite) {
         connect("key_pressed", sprite, "_on_key_pressed");
     }
-    Godot::print(get_parent()->get_name());
+    /*myParent = get_parent();
+    if(myParent){
+        //connect("collision",myParent,"_is_dead");
+    }*/
+    connect("collision",get_parent(), "_is_dead");
+    start_position = get_position();
+    body_enabled = false;
 }
 
 void GDColision::_physics_process(float delta){
     //Godot::print("Fisicas ....");
-    Vector2 movement(key_h,key_v);
-    movement = movement * speed * delta;
-    
-    Ref<KinematicCollision2D> collision = move_and_collide(movement);
-    if(collision.is_valid()){
-    // Ahora puedes usar esta información según tus necesidades.
-        String nombre = collision->get_collider()->get_class();
-        Godot::print("Colisión con: " + nombre);
-        emit_signal("collision",nombre);
-    // Por ejemplo, verifica el nombre del nodo con el que colisionó.
-    }
-    for(int i=0;i<get_slide_count();i++){
-        Ref<KinematicCollision2D> col = get_slide_collision(i);
-        Godot::print("colider_id:");
-        Godot::print(String::num(col->get_collider_id()));
-    }
+    isEnabled_movement(delta);
 }
 void GDColision::_init(){
     Godot::print("Init ....");
@@ -60,20 +51,22 @@ void GDColision::_init(){
     key_v = 0;
 }
 void GDColision::_input(const Ref<InputEvent> event) {
-    if (event.is_valid() && event->is_class("InputEventKey")) {
-        key_event = event;
-        if (key_event->is_pressed()) {
+    if(body_enabled){
+        if (event.is_valid() && event->is_class("InputEventKey")) {
+            key_event = event;
+            if (key_event->is_pressed()) {
             int key_code = key_event->get_scancode();
             // Realiza acciones en función del código de tecla presionado
             // Realiza acciones específicas para la tecla 'A'
             myIsPressed(key_code);
             isHorizontal(key_code);
-        }
-        else if(key_event->is_action_released("tl_h_liberada")){
+            }
+            else if(key_event->is_action_released("tl_h_liberada")){
             key_h = 0;
-        }
-        else if(key_event->is_action_released("tl_v_liberada")){
+            }
+            else if(key_event->is_action_released("tl_v_liberada")){
             key_v = 0;
+            }
         }
     }
 }
@@ -129,4 +122,23 @@ void GDColision::isHorizontal(int num){
     else if(num == 83 || num == 87){
         emit_signal("key_pressed", false);
     }
+}
+void GDColision::isEnabled_movement(float delta){
+    if(body_enabled){
+        Vector2 movement(key_h,key_v);
+        movement = movement * speed * delta;
+        Ref<KinematicCollision2D> collision = move_and_collide(movement);
+        if(collision.is_valid()){
+    // Ahora puedes usar esta información según tus necesidades.
+            String nombre = collision->get_collider()->get_class();
+        //Godot::print("Colisión con: " + nombre);
+            emit_signal("collision",nombre);
+    // Por ejemplo, verifica el nombre del nodo con el que colisionó.
+        }
+    }
+
+}
+void GDColision::_setEnabled(bool value){
+    body_enabled = value;
+    set_position(start_position);
 }
