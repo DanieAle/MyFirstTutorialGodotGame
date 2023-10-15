@@ -2,7 +2,7 @@
 
 [ext_resource path="res://bin/NativeScriptGDEnemy.gdns" type="Script" id=1]
 [ext_resource path="res://gdData/animation/Resource/Enemy_Frames.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://bin/NativeScriptGDColision.gdns" type="Script" id=3]
+[ext_resource path="res://bin/NativeScriptGDEnemyColision.gdns" type="Script" id=3]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 45.0
@@ -12,7 +12,6 @@ script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 script = ExtResource( 1 )
-speed = 50.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Sprite"]
 frames = ExtResource( 2 )

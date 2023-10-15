@@ -13,6 +13,7 @@ void GDColision:: _register_methods(){
 
     register_signal<GDColision, bool>((char *)"key_pressed",
         "isPressed",GODOT_VARIANT_TYPE_BOOL,"direction",GODOT_VARIANT_TYPE_INT);
+    register_signal<GDColision, String>((char*)"collision","name",GODOT_VARIANT_TYPE_STRING);
 }
 
 GDColision::GDColision(){
@@ -29,6 +30,7 @@ void GDColision::_ready(){
     if (sprite) {
         connect("key_pressed", sprite, "_on_key_pressed");
     }
+    Godot::print(get_parent()->get_name());
 }
 
 void GDColision::_physics_process(float delta){
@@ -36,16 +38,14 @@ void GDColision::_physics_process(float delta){
     Vector2 movement(key_h,key_v);
     movement = movement * speed * delta;
     
-    // Aplica el movimiento a la posición actual.
-    if(key_v != 0){
-        //sprite_animated->play("up");
+    Ref<KinematicCollision2D> collision = move_and_collide(movement);
+    if(collision.is_valid()){
+    // Ahora puedes usar esta información según tus necesidades.
+        String nombre = collision->get_collider()->get_class();
+        Godot::print("Colisión con: " + nombre);
+        emit_signal("collision",nombre);
+    // Por ejemplo, verifica el nombre del nodo con el que colisionó.
     }
-    else if(key_h != 0){
-        //sprite_animated->play("walk");
-    }
-    
-    move_and_collide(movement);
-    //Godot::print(String::num(get_slide_count()));
     for(int i=0;i<get_slide_count();i++){
         Ref<KinematicCollision2D> col = get_slide_collision(i);
         Godot::print("colider_id:");

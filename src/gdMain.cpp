@@ -40,7 +40,7 @@ void GDMyMain::handleKeyH(int direction){
     }
 }
 void GDMyMain::_on_key_pressed(bool isPressed,int direction){
-    Godot::print("Señal en MyMain obtenida");
+    //Godot::print("Señal en MyMain obtenida");
     if(isPressed){
         sprite_animated->play("walk");
         handleKeyH(direction);

@@ -1,15 +1,62 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://gdData/Scenas/PlayerBody2d.tscn" type="PackedScene" id=1]
 [ext_resource path="res://gdData/Scenas/EnemyBody2d.tscn" type="PackedScene" id=2]
 
+[sub_resource type="SegmentShape2D" id=1]
+a = Vector2( 1024, 0 )
+b = Vector2( 0, 0 )
+
+[sub_resource type="SegmentShape2D" id=2]
+a = Vector2( 1024, 0 )
+b = Vector2( 0, 0 )
+
+[sub_resource type="SegmentShape2D" id=3]
+a = Vector2( 0, 600 )
+b = Vector2( 0, 0 )
+
+[sub_resource type="SegmentShape2D" id=4]
+a = Vector2( 0, 600 )
+b = Vector2( 0, 0 )
+
 [node name="Main" type="Node2D"]
 
 [node name="PlayerBody2d" parent="." instance=ExtResource( 1 )]
-collision_mask = 2
+collision_layer = 3
+collision_mask = 7
 collision/safe_margin = 1.0
-player = false
 
 [node name="EnemyBody2d" parent="." instance=ExtResource( 2 )]
-collision_mask = 2
+collision_layer = 3
+collision_mask = 3
 collision/safe_margin = 1.0
+
+[node name="Arriba" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arriba"]
+shape = SubResource( 1 )
+
+[node name="Abajo" type="StaticBody2D" parent="."]
+position = Vector2( 0, 600 )
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Abajo"]
+shape = SubResource( 2 )
+
+[node name="Izquierda" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Izquierda"]
+shape = SubResource( 3 )
+
+[node name="Derecha" type="StaticBody2D" parent="."]
+position = Vector2( 1024, 0 )
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Derecha"]
+shape = SubResource( 4 )

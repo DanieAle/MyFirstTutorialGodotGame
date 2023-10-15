@@ -36,7 +36,7 @@ public:
     void handleKeyY(bool rightOrLeft);
     void myIsPressed(int key_code);
     void isHorizontal(int num);
-
+    void isOut();
 
 };
 
