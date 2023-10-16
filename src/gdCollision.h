@@ -23,12 +23,14 @@ public:
     //Defautl methods
 
     //set_methods
-
-
-    //Event methods
     void _set_speed(int value);
     void _set_time_passed(int value);
     void _setEnabled(bool value);
+    //get_methods
+    int _get_speed();
+    int _get_time_passed();
+    bool _getEnabled();
+    //Event methods
 
     //New methods
     void set_refs(Node *obj);

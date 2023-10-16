@@ -14,6 +14,7 @@ GDCollision::GDCollision(){
 GDCollision::~GDCollision(){
 
 }
+//SET
 void GDCollision::_set_speed(int value){
     speed = value;
 }
@@ -22,6 +23,16 @@ void GDCollision::_set_time_passed(int value){
 }
 void GDCollision::_setEnabled(bool value){
     enabled = true;
+}
+//GET
+int GDCollision::_get_speed(){
+    return speed;
+}
+int GDCollision::_get_time_passed(){
+    return time_passed;
+}
+bool GDCollision::_getEnabled(){
+    return enabled;
 }
 
 void GDCollision::set_refs(Node *obj){
