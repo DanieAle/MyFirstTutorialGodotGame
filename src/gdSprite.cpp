@@ -3,6 +3,8 @@
 using namespace godot;
 
 void GDSprite::_register_methods() {
+    register_method("_ready", &GDSprite::_ready);
+    register_method("_init", &GDSprite::_init);
     register_method("_is_movement", &GDSprite::_is_movement);
 
 
@@ -16,10 +18,15 @@ GDSprite::~GDSprite() {
 }
 
 void GDSprite::_ready() {
-    sprite_animated = Object::cast_to<AnimatedSprite>(get_child(get_child_count()-1));
+    //sprite_animated = Object::cast_to<AnimatedSprite>(get_child(get_child_count()-1));
     // Realiza inicializaciones aquí.
+    set_refs();
 }
-void GDSprite::_is_movement(bool flip,int direcction,int value_rotation){
+void GDSprite::_init(){
+
+}
+void GDSprite::_is_movement(bool flip,int direcction,int value_rotation,String animation){
+    sprite_animated->play(animation);
     if(flip){
         flipHorizontal(direcction);
     }
@@ -29,7 +36,7 @@ void GDSprite::_is_movement(bool flip,int direcction,int value_rotation){
     rotation(value_rotation);
 }
 void GDSprite::flipHorizontal(int direcction){
-    if(direcction < 0){
+    if(direcction > 0){
         sprite_animated->set_flip_h(false);
     }
     else{
@@ -47,5 +54,17 @@ void GDSprite::flipVertical(int direcction){
 void GDSprite::rotation(int value){
     if(value != 0){
         sprite_animated->set_rotation_degrees(value);
+    }
+}
+void GDSprite::set_refs(){
+    int i = 0;
+    int child_count = get_child_count();
+    while (i < child_count) {
+        //Node *node = get_child(i);
+        if (get_child(i)->is_class("AnimatedSprite")) {
+            sprite_animated = Object::cast_to<AnimatedSprite>(get_child(i));
+            break;
+        }
+        i++;
     }
 }

@@ -3,6 +3,7 @@
 
 #include <Godot.hpp>
 #include <KinematicBody2D.hpp>
+#include <Sprite.hpp>
 
 namespace godot{
 
@@ -32,8 +33,8 @@ public:
     //Event methods
 
     //New methods
-    //void set_refs(Node *obj);
-    //void valid_obj_connect(Node *obj,String name_signal, String name_method);
+    void set_refs(Sprite *&sprite);
+    void valid_obj_connect(Sprite *&sprite, String name_signal, String name_method);
 };
 }
 

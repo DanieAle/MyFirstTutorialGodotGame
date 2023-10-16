@@ -9,8 +9,9 @@ void GDCollisionPlayer::_register_methods(){
     register_method("_input", &GDCollisionPlayer::_input);
 
     //SIGNAL
-    register_signal<GDCollisionPlayer, bool>((char *)"key_pressed",
-        "isPressed",GODOT_VARIANT_TYPE_BOOL,"direction",GODOT_VARIANT_TYPE_INT);
+    register_signal<GDCollisionPlayer, bool,int,String>((char *)"key_pressed",
+        "flip",GODOT_VARIANT_TYPE_BOOL,"direcction",GODOT_VARIANT_TYPE_INT,
+        "value_rotation",GODOT_VARIANT_TYPE_INT,"animation", GODOT_VARIANT_TYPE_STRING);
 }
 
 GDCollisionPlayer::GDCollisionPlayer(){
@@ -21,8 +22,8 @@ GDCollisionPlayer::~GDCollisionPlayer(){
 void GDCollisionPlayer::_ready(){
     Godot::print("Hola");
     set_physics_process(true);
-    set_refs();
-    //node.valid_obj_connect(sprite,"key_pressed","_is_movement");
+    set_refs(sprite);
+    valid_obj_connect(sprite,"key_pressed","_is_movement");
     //start_position = get_position();
     //_setEnabled(false);
 }
@@ -57,10 +58,10 @@ void GDCollisionPlayer::_setEnabled(bool value){
 }
 void GDCollisionPlayer::isHorizontal(int num){
     if(num == 65 || num == 68){
-        emit_signal("key_pressed", true,key_h);
+        emit_signal("key_pressed", true,key_h,0,"walk");
     }
     else if(num == 83 || num == 87){
-        emit_signal("key_pressed", false,0);
+        emit_signal("key_pressed", false,key_v,0,"up");
     }
 }
 void GDCollisionPlayer::myIsPressed(int key_code){
@@ -125,22 +126,22 @@ void GDCollisionPlayer::input_pc(const Ref<InputEvent> event){
     }
 }
 
-void GDCollisionPlayer::set_refs() {
+/*void GDCollisionPlayer::set_refs(Sprite *&spr) {
     int i = 0;
     int child_count = get_child_count();
     Godot::print(String::num(child_count));
     while (i < child_count) {
         //Node *node = get_child(i);
         if (get_child(i)->is_class("Sprite")) {
-            sprite = Object::cast_to<Sprite>(get_child(i));
+            spr = Object::cast_to<Sprite>(get_child(i));
             break;
         }
         i++;
     }
 }
-void GDCollisionPlayer::valid_obj_connect(Node *obj,String name_signal,String name_method){
-    if(obj){
-        connect(name_signal, obj,name_method);
+void GDCollisionPlayer::valid_obj_connect(String name_signal,String name_method){
+    if(sprite){
+        connect(name_signal, sprite,name_method);
     }
 
-}
+}*/

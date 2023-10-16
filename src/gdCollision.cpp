@@ -45,22 +45,22 @@ bool GDCollision::_getEnabled(){
 }
 
 //New methods
-/*void GDCollision::set_refs(Node *obj){
+void GDCollision::set_refs(Sprite *&sprite) {
     int i = 0;
     int child_count = get_child_count();
-    while(i < child_count){
-        Node *node = get_child(i);
-        String type_of_class = obj->get_class();
-        if(node->is_class(type_of_class)){
-            obj = node;
+    Godot::print(String::num(child_count));
+    while (i < child_count) {
+        //Node *node = get_child(i);
+        if (get_child(i)->is_class("Sprite")) {
+            sprite = Object::cast_to<Sprite>(get_child(i));
             break;
         }
         i++;
     }
 }
-void GDCollision::valid_obj_connect(Node *obj,String name_signal,String name_method){
-    if(obj){
-        connect(name_signal, obj,name_method);
+void GDCollision::valid_obj_connect(Sprite *&sprite,String name_signal,String name_method){
+    if(sprite){
+        connect(name_signal, sprite,name_method);
     }
 
-}*/
+}

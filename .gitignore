@@ -4,3 +4,5 @@ SConstruct
 mono_crash*
 settings.json
 Build
+.so
+.os

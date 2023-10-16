@@ -38,8 +38,8 @@ public:
     void handleKeyH(bool rightOrLeft);
     void handleKeyY(bool rightOrLeft);
     void input_pc(const Ref<InputEvent> event);
-    void set_refs();
-    void valid_obj_connect(Node *obj,String name_signal, String name_method);
+    //void set_refs(Sprite *&spr);
+    //void valid_obj_connect(String name_signal, String name_method);
     };
 }
 #endif
