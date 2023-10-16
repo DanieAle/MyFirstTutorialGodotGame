@@ -19,7 +19,8 @@ public:
     ~GDCollision();
 
     //Defautl methods
-
+    void _ready();
+    void _init();
     //set_methods
     void _set_speed(int value);
     void _set_time_passed(int value);

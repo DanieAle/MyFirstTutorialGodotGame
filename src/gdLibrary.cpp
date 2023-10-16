@@ -1,10 +1,4 @@
-#include "gdMain.h"
-#include "gdKeys.h"
-#include "gdEnemy.h"
-#include "gdColision.h"
-#include "gdEnemyColision.h"
-#include "gdMainNode.h"
-#include "gdMenu.h"
+#include "gdCollisionPlayer.h"
 
 
 extern "C" void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *o) {
@@ -18,11 +12,5 @@ extern "C" void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_opt
 extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
     godot::Godot::nativescript_init(handle);
 
-    godot::register_class<godot::GDMyMain>();
-    godot::register_class<godot::GDKeys>();
-    godot::register_class<godot::GDEnemy>();
-    godot::register_class<godot::GDColision>();
-    godot::register_class<godot::GDEnemyColision>();
-    godot::register_class<godot::GDMainNode>();
-    godot::register_class<godot::GDMenu>();
+    godot::register_class<godot::GDCollisionPlayer>();
 }

@@ -8,7 +8,9 @@ void GDCollisionPlayer::_register_methods(){
     register_method("_init", &GDCollisionPlayer::_init);
     register_method("_input", &GDCollisionPlayer::_input);
 
-
+    //SIGNAL
+    register_signal<GDCollisionPlayer, bool>((char *)"key_pressed",
+        "isPressed",GODOT_VARIANT_TYPE_BOOL,"direction",GODOT_VARIANT_TYPE_INT);
 }
 
 GDCollisionPlayer::GDCollisionPlayer(){
@@ -17,17 +19,18 @@ GDCollisionPlayer::~GDCollisionPlayer(){
 
 }
 void GDCollisionPlayer::_ready(){
+    Godot::print("Hola");
     set_physics_process(true);
-    node.set_refs(sprite);
-    node.valid_obj_connect(sprite,"key_pressed","_is_movement");
-    start_position = get_position();
-    _setEnabled(false);
+    set_refs();
+    //node.valid_obj_connect(sprite,"key_pressed","_is_movement");
+    //start_position = get_position();
+    //_setEnabled(false);
 }
 void GDCollisionPlayer::_physics_process(float delta){
     //Godot::print("Fisicas ....");
-    if(_getEnabled()){
+    //if(_getEnabled()){
         move(delta);
-    }
+   // }
 }
 void GDCollisionPlayer::_init(){
     Godot::print("Init ....");
@@ -102,7 +105,7 @@ void GDCollisionPlayer::handleKeyY(bool rightOrLeft){
     }
 }
 void GDCollisionPlayer::input_pc(const Ref<InputEvent> event){
-    if(_getEnabled()){
+    if(true){
         if (event.is_valid() && event->is_class("InputEventKey")) {
             key_event = event;
             if (key_event->is_pressed()) {
@@ -120,4 +123,24 @@ void GDCollisionPlayer::input_pc(const Ref<InputEvent> event){
             }
         }
     }
+}
+
+void GDCollisionPlayer::set_refs() {
+    int i = 0;
+    int child_count = get_child_count();
+    Godot::print(String::num(child_count));
+    while (i < child_count) {
+        //Node *node = get_child(i);
+        if (get_child(i)->is_class("Sprite")) {
+            sprite = Object::cast_to<Sprite>(get_child(i));
+            break;
+        }
+        i++;
+    }
+}
+void GDCollisionPlayer::valid_obj_connect(Node *obj,String name_signal,String name_method){
+    if(obj){
+        connect(name_signal, obj,name_method);
+    }
+
 }

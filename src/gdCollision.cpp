@@ -4,6 +4,8 @@ using namespace godot;
 
 //Registro de methodos para godot
 void GDCollision::_register_methods(){
+    register_method("_ready", &GDCollision::_ready);
+    register_method("_init", &GDCollision::_init);
     register_method("_setEnabled", &GDCollision::_setEnabled);
 
     //Registro de Signals
@@ -14,7 +16,12 @@ GDCollision::GDCollision(){
 GDCollision::~GDCollision(){
 
 }
-
+void GDCollision::_ready(){
+    Godot::print("Ready....GDCollision");
+}
+void GDCollision::_init(){
+    
+}
 //SET
 void GDCollision::_set_speed(int value){
     speed = value;

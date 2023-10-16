@@ -7,7 +7,7 @@
 #include <InputEvent.hpp>
 #include <InputEventKey.hpp>
 #include <Sprite.hpp>
-#include <GDNodeBase.h>
+
 
 namespace godot{
 
@@ -20,7 +20,6 @@ private:
     int key_v;
     Ref<InputEventKey> key_event;
     Sprite *sprite;
-    GDNodeBase node;
 public:
     static void _register_methods();
 
@@ -39,6 +38,8 @@ public:
     void handleKeyH(bool rightOrLeft);
     void handleKeyY(bool rightOrLeft);
     void input_pc(const Ref<InputEvent> event);
+    void set_refs();
+    void valid_obj_connect(Node *obj,String name_signal, String name_method);
     };
 }
 #endif
