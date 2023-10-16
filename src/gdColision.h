@@ -13,10 +13,10 @@ namespace godot {
 class GDColision : public KinematicBody2D {
     GODOT_CLASS(GDColision, KinematicBody2D)
 private:
-    Vector2 start_position;
-    bool player;
     float time_passed;
     float speed;
+    Vector2 start_position;
+    bool player;
     int key_h;
     int key_v;
     Ref<InputEventKey> key_event;

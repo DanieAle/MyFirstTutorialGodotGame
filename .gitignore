@@ -3,3 +3,4 @@ godot-cpp
 SConstruct
 mono_crash*
 settings.json
+Build
