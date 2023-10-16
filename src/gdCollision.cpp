@@ -38,7 +38,7 @@ bool GDCollision::_getEnabled(){
 }
 
 //New methods
-void GDCollision::set_refs(Node *obj){
+/*void GDCollision::set_refs(Node *obj){
     int i = 0;
     int child_count = get_child_count();
     while(i < child_count){
@@ -56,9 +56,4 @@ void GDCollision::valid_obj_connect(Node *obj,String name_signal,String name_met
         connect(name_signal, obj,name_method);
     }
 
-}
-void GDCollision::isEnabled_movement(bool value, void  (*func)(bool)){
-    if(value){
-        func(value);
-    }
-}
+}*/

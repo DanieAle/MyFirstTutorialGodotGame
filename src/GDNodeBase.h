@@ -9,5 +9,6 @@ class GDNodeBase : public virtual Node {
 
 public:
     void set_refs(Node *obj);
+    void valid_obj_connect(Node *obj,String name_signal, String name_method);
 };
 }

@@ -15,3 +15,9 @@ void GDNodeBase::set_refs(Node *obj) {
         i++;
     }
 }
+void GDNodeBase::valid_obj_connect(Node *obj,String name_signal,String name_method){
+    if(obj){
+        connect(name_signal, obj,name_method);
+    }
+
+}
