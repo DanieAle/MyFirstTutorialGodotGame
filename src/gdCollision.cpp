@@ -14,6 +14,7 @@ GDCollision::GDCollision(){
 GDCollision::~GDCollision(){
 
 }
+
 //SET
 void GDCollision::_set_speed(int value){
     speed = value;
@@ -24,6 +25,7 @@ void GDCollision::_set_time_passed(int value){
 void GDCollision::_setEnabled(bool value){
     enabled = true;
 }
+
 //GET
 int GDCollision::_get_speed(){
     return speed;
@@ -35,6 +37,7 @@ bool GDCollision::_getEnabled(){
     return enabled;
 }
 
+//New methods
 void GDCollision::set_refs(Node *obj){
     int i = 0;
     int child_count = get_child_count();

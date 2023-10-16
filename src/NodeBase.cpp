@@ -1,0 +1,17 @@
+#include "GDNodeBase.h"
+
+using namespace godot;
+
+void GDNodeBase::set_refs(Node *obj) {
+    int i = 0;
+    int child_count = get_child_count();
+    while (i < child_count) {
+        Node *node = get_child(i);
+        String type_of_class = obj->get_class();
+        if (node->is_class(type_of_class)) {
+            obj = node;
+            break;
+        }
+        i++;
+    }
+}
