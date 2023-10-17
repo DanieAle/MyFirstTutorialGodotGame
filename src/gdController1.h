@@ -5,6 +5,8 @@
 #include <Sprite.hpp>
 #include <InputEventMouse.hpp>
 #include <InputEventMouseButton.hpp>
+#include <ResourceLoader.hpp>
+#include <Texture.hpp>
 
 namespace godot{
 
@@ -20,6 +22,8 @@ private:
     bool enabled;
     Ref<InputEventMouseButton> button;
     Ref<InputEventMouse> mouse;
+    Ref<Texture> texture1;
+    Ref<Texture> texture2;
 public:
     static void _register_methods();
 

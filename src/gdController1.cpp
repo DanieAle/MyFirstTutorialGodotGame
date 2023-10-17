@@ -29,6 +29,8 @@ void GDController::_ready(){
     Godot::print(range_x);
     Godot::print(range_y);
     button_release = false;
+    texture1 = ResourceLoader::get_singleton()->load("res://assets/art/joy2.png");
+    texture2 = ResourceLoader::get_singleton()->load("res://assets/art/joy2_2.png");
 }
 void GDController::_init(){
     
@@ -52,10 +54,12 @@ void GDController::_process(float delta){
             if(is_in_Range(touch_position)){
             new_position(touch_position);
             button_release = false;
+            set_texture(texture2);
             }
         }
         else if(button->is_action_released("Mouse_click") && button->get_button_index() == 1){
             button_release = true;
+            set_texture(texture1);
         }
     }
 }
