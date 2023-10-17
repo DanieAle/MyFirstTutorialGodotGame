@@ -115,7 +115,7 @@ void GDEnemyColision::HowWillMove(){
         pos_inicial_y = 10 + (std::rand() % (550 - 10 + 1));
     }
     else{
-        pos_inicial_y = new_pos_Inicial(direccion,10,100,rec.size.y);
+        pos_inicial_y = new_pos_Inicial(direccion,60,100,rec.size.y);
         pos_inicial_x = 10 + (std::rand() % (400 - 10 + 1));
         rotation = 90;
     }

@@ -125,23 +125,3 @@ void GDCollisionPlayer::input_pc(const Ref<InputEvent> event){
         }
     }
 }
-
-/*void GDCollisionPlayer::set_refs(Sprite *&spr) {
-    int i = 0;
-    int child_count = get_child_count();
-    Godot::print(String::num(child_count));
-    while (i < child_count) {
-        //Node *node = get_child(i);
-        if (get_child(i)->is_class("Sprite")) {
-            spr = Object::cast_to<Sprite>(get_child(i));
-            break;
-        }
-        i++;
-    }
-}
-void GDCollisionPlayer::valid_obj_connect(String name_signal,String name_method){
-    if(sprite){
-        connect(name_signal, sprite,name_method);
-    }
-
-}*/
