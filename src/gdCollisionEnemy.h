@@ -17,7 +17,7 @@ private:
     int max_x;
     int max_y;
     Rect2 rec;
-    int velocidades[4] = {150,200,250,350};
+    int velocidades[4] = {50,100,150,200};
     int direcciones1[2] = {1,-1};
     bool direcciones2[2] = {true,false};
     String animations[3] = {"walk","swimming","flying"};
@@ -28,6 +28,7 @@ private:
     int pos_inicial_y;
     int rotation;
     Sprite *sprite;
+    bool enabled;
 public:
     static void _register_methods();
 

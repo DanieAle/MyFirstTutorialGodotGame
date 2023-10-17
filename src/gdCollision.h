@@ -25,7 +25,6 @@ public:
     //set_methods
     void _set_speed(int value);
     void _set_time_passed(int value);
-    void _setEnabled(bool value);
     //get_methods
     int _get_speed();
     int _get_time_passed();

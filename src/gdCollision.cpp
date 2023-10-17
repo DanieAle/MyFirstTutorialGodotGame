@@ -6,7 +6,6 @@ using namespace godot;
 void GDCollision::_register_methods(){
     register_method("_ready", &GDCollision::_ready);
     register_method("_init", &GDCollision::_init);
-    register_method("_setEnabled", &GDCollision::_setEnabled);
 
     //Registro de Signals
     register_signal<GDCollision, String>((char*)"collision","name",GODOT_VARIANT_TYPE_STRING);
@@ -28,9 +27,6 @@ void GDCollision::_set_speed(int value){
 }
 void GDCollision::_set_time_passed(int value){
     time_passed = value;
-}
-void GDCollision::_setEnabled(bool value){
-    enabled = true;
 }
 
 //GET

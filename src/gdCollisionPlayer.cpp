@@ -7,6 +7,7 @@ void GDCollisionPlayer::_register_methods(){
     register_method("_physics_process", &GDCollisionPlayer::_physics_process);
     register_method("_init", &GDCollisionPlayer::_init);
     register_method("_input", &GDCollisionPlayer::_input);
+    register_method("_setEnabled", &GDCollisionPlayer::_setEnabled);
 
     //SIGNAL
     register_signal<GDCollisionPlayer, bool,int,String>((char *)"key_pressed",
@@ -24,14 +25,14 @@ void GDCollisionPlayer::_ready(){
     set_physics_process(true);
     set_refs(sprite);
     valid_obj_connect(sprite,"key_pressed","_is_movement");
-    //start_position = get_position();
-    //_setEnabled(false);
+    start_position = get_position();
+    enabled = false;
 }
 void GDCollisionPlayer::_physics_process(float delta){
     //Godot::print("Fisicas ....");
-    //if(_getEnabled()){
+    if(enabled){
         move(delta);
-   // }
+    }
 }
 void GDCollisionPlayer::_init(){
     Godot::print("Init ....");
@@ -51,7 +52,7 @@ void GDCollisionPlayer::move(float delta){
     move_and_collide(movement);
 }
 void GDCollisionPlayer::_setEnabled(bool value){
-    _setEnabled(value);
+    enabled = value;
     set_position(start_position);
     key_h = 0;
     key_v = 0;
@@ -106,7 +107,7 @@ void GDCollisionPlayer::handleKeyY(bool rightOrLeft){
     }
 }
 void GDCollisionPlayer::input_pc(const Ref<InputEvent> event){
-    if(true){
+    if(enabled){
         if (event.is_valid() && event->is_class("InputEventKey")) {
             key_event = event;
             if (key_event->is_pressed()) {

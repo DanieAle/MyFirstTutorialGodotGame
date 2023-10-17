@@ -30,11 +30,9 @@ script = ExtResource( 3 )
 visible = false
 position = Vector2( 200, 300 )
 z_index = 1
-collision/safe_margin = 1.0
 
 [node name="EnemyBody2d" parent="." groups=["KinetmaticBody2D"] instance=ExtResource( 2 )]
 visible = false
-collision/safe_margin = 1.0
 
 [node name="Arriba" type="StaticBody2D" parent="."]
 collision_layer = 4

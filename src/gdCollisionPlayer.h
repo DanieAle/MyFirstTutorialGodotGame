@@ -20,6 +20,7 @@ private:
     int key_v;
     Ref<InputEventKey> key_event;
     Sprite *sprite;
+    bool enabled;
 public:
     static void _register_methods();
 

@@ -6,11 +6,13 @@ void GDCollisionEnemy::_register_methods(){
     register_method("_ready", &GDCollisionEnemy::_ready);
     register_method("_physics_process", &GDCollisionEnemy::_physics_process);
     register_method("_init", &GDCollisionEnemy::_init);
+    register_method("_setEnabled", &GDCollisionEnemy::_setEnabled);
 
     //SIGNAL
     register_signal<GDCollisionEnemy, bool,int,String>((char *)"in_movement",
         "flip",GODOT_VARIANT_TYPE_BOOL,"direcction",GODOT_VARIANT_TYPE_INT,
         "value_rotation",GODOT_VARIANT_TYPE_INT,"animation", GODOT_VARIANT_TYPE_STRING);
+    register_signal<GDCollisionEnemy, String>((char*)"collision","name",GODOT_VARIANT_TYPE_STRING);
 }
 
 GDCollisionEnemy::GDCollisionEnemy(){
@@ -23,6 +25,7 @@ void GDCollisionEnemy::_ready(){
     set_physics_process(true);
     set_refs(sprite);
     valid_obj_connect(sprite,"in_movement","_is_movement");
+    connect("collision",get_parent(), "_is_dead");
     //_setEnabled(false);
     rec = get_viewport_rect();
     max_x = rec.size.x;
@@ -30,10 +33,11 @@ void GDCollisionEnemy::_ready(){
     rotation = 0;
     srand(time(0));
     confgEnemy();
+    enabled = false;
 }
 void GDCollisionEnemy::_physics_process(float delta){
     //Godot::print("Fisicas ....");
-    if(true){
+    if(enabled){
         float speed = _get_speed();
         Vector2 movement;
         if(isHorizontal){
@@ -59,7 +63,7 @@ void GDCollisionEnemy::_physics_process(float delta){
 void GDCollisionEnemy::_init(){
     Godot::print("Init ....");
     _set_time_passed(0.0);
-    _set_speed(200);
+    _set_speed(50);
 }
 
 void GDCollisionEnemy::confgEnemy(){
@@ -96,8 +100,8 @@ int GDCollisionEnemy::new_pos_Inicial(int direccion,int min, int max,int limit){
             pos *= -1;
             break;
         case -1:
-            int new_max = (max + max) + limit;
-            int new_min = limit;
+            int new_max = (limit/2) + limit;
+            int new_min = limit + max;
             //Godot::print(String::num(new_min));
             pos = new_min - (std::rand() % (new_max - new_min + 1));
             break;
@@ -147,6 +151,6 @@ void GDCollisionEnemy::isOfScreen(Vector2 position){
     }
 }
 void GDCollisionEnemy::_setEnabled(bool value){
-    _setEnabled(value);
+    enabled = value;
     confgEnemy();
 }

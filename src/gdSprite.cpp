@@ -30,8 +30,6 @@ void GDSprite::_is_movement(bool flip,int direcction,int value_rotation,String a
     sprite_animated->set_flip_h(false);
     sprite_animated->set_flip_v(false);
     sprite_animated->set_rotation_degrees(0);
-    String es = flip ? "true": "false";
-    Godot::print(es);
     if(flip){
         flipHorizontal(direcction);
     }
@@ -45,7 +43,6 @@ void GDSprite::flipHorizontal(int direcction){
         sprite_animated->set_flip_h(false);
     }
     else{
-        Godot::print("-1");
         sprite_animated->set_flip_h(true);
     }
 }
