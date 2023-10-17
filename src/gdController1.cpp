@@ -8,8 +8,11 @@ void GDController::_register_methods(){
     register_method("_init", &GDController::_init);
     register_method("_input", &GDController::_input);
     register_method("_process", &GDController::_process);
+    register_method("set_enabled", &GDController::set_enabled);
 
     //Registro de Signals
+    register_signal<GDController>((char*)"move","pos",GODOT_VARIANT_TYPE_VECTOR2);
+    register_signal<GDController,String>((char *)"stop","response",GODOT_VARIANT_TYPE_STRING);
 }
 GDController::GDController(){
 }
@@ -18,7 +21,7 @@ GDController::~GDController(){
 }
 void GDController::_ready(){
     Godot::print("Ready....GDController");
-    Vector2 tope = Vector2(20,20);
+    Vector2 tope = Vector2(30,30);
     max_position = get_position()+tope;
     min_position = get_position()-tope;
     enabled = true;
@@ -55,11 +58,13 @@ void GDController::_process(float delta){
             new_position(touch_position);
             button_release = false;
             set_texture(texture2);
+            send_signal();
             }
         }
         else if(button->is_action_released("Mouse_click") && button->get_button_index() == 1){
             button_release = true;
             set_texture(texture1);
+            emit_signal("stop","release");
         }
     }
 }
@@ -103,7 +108,7 @@ void GDController::isOut(){
 }
 bool GDController::is_in_Range(Vector2 pos){
     bool inRange = false;
-    if(pos.x < range_x.x && pos.x < range_x.y && pos.x > range_y.x && pos.y > range_y.y  ){
+    if(pos.x < range_x.x && pos.x < range_x.y && pos.x > range_y.x && pos.y > range_y.y && pos.y < range_x.y  ){
         inRange = true;
     }
     return inRange;
@@ -124,4 +129,49 @@ int GDController::Operation(int value){
 }
 bool GDController::valid(){
     return mouse.is_valid() && button.is_valid();
+}
+
+void GDController::send_signal(){
+    Vector2 pos = get_position();
+    Godot::print(pos);
+    int x = 0;
+    int y = 0;
+    if(pos.x > 10 && pos.y < 15){
+        x = 1;
+    }
+    else if(pos.x < -10 && pos.y > -15){
+        x = -1;
+    }
+    else{
+        if(pos.y > 10 && pos.x < 15){
+        y = 1;
+    }
+    else if(pos.y > -10 && pos.x < -15){
+        y = -1;
+    }
+    else{
+        if (abs(pos.x) < 30) {
+        x = (pos.x > 0) ? 1 : -1;
+        }
+        if (abs(pos.y) > -30) {
+        y = (pos.y > 0) ? 1 : -1;
+        }
+    }
+
+    }
+    emit_signal("move",Vector2(x,y));
+}
+int GDController::normalize(int value){
+    int response = 0;
+    if(value <= 30 && value >= 15){
+        response = 1;
+    }
+    else if(value >= -30 && value <= -15){
+        response = -1;
+    }
+    else response = 0;
+    return response;
+}
+void GDController::set_enabled(bool value){
+    enabled = true;
 }

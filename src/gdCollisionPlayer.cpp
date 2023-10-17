@@ -8,6 +8,8 @@ void GDCollisionPlayer::_register_methods(){
     register_method("_init", &GDCollisionPlayer::_init);
     register_method("_input", &GDCollisionPlayer::_input);
     register_method("_setEnabled", &GDCollisionPlayer::_setEnabled);
+    register_method("input_mouse", &GDCollisionPlayer::input_mouse);
+    register_method("input_mouse_stop", &GDCollisionPlayer::input_mouse_stop);
 
     //SIGNAL
     register_signal<GDCollisionPlayer, bool,int,String>((char *)"key_pressed",
@@ -27,6 +29,11 @@ void GDCollisionPlayer::_ready(){
     valid_obj_connect(sprite,"key_pressed","_is_movement");
     start_position = get_position();
     enabled = false;
+    Node2D *nodeparent = Object::cast_to<Node2D>(get_parent());
+    Sprite *sprte_squeare = Object::cast_to<Sprite>(nodeparent->get_child(11));
+    sprite_mouse = Object::cast_to<Sprite>(sprte_squeare->get_child(0));
+    sprite_mouse->connect("move",this,"input_mouse");
+    sprite_mouse->connect("stop",this,"input_mouse_stop");
 }
 void GDCollisionPlayer::_physics_process(float delta){
     //Godot::print("Fisicas ....");
@@ -125,4 +132,18 @@ void GDCollisionPlayer::input_pc(const Ref<InputEvent> event){
             }
         }
     }
+}
+void GDCollisionPlayer::input_mouse(Vector2 pos){
+    key_h = pos.x;
+    key_v = pos.y;
+    if(key_h != 0){
+        emit_signal("key_pressed", true,key_h,0,"walk");
+    }
+    else if(key_v != 0){
+        emit_signal("key_pressed", false,key_v,0,"up");
+    }
+}
+void GDCollisionPlayer::input_mouse_stop(String response){
+    key_h = 0;
+    key_v = 0;
 }

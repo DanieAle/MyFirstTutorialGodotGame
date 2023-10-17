@@ -45,6 +45,9 @@ public:
     void new_position(Vector2 pos);
     int Operation(int value);
     bool valid();
+    void send_signal();
+    int normalize(int value);
+    void set_enabled(bool value);
 };
 }
 

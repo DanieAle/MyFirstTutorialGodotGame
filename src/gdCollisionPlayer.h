@@ -20,6 +20,7 @@ private:
     int key_v;
     Ref<InputEventKey> key_event;
     Sprite *sprite;
+    Sprite *sprite_mouse;
     bool enabled;
 public:
     static void _register_methods();
@@ -39,6 +40,8 @@ public:
     void handleKeyH(bool rightOrLeft);
     void handleKeyY(bool rightOrLeft);
     void input_pc(const Ref<InputEvent> event);
+    void input_mouse(Vector2 pos);
+    void input_mouse_stop(String response);
   
     };
 }
