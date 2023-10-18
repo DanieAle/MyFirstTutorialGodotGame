@@ -7,8 +7,10 @@ reloadable=true
 
 [entry]
 
+Android.armeabi-v7a="res://bin/libAndroid_armv7.so"
 X11.64="res://bin/x11/libgdMyMain.so"
 
 [dependencies]
 
+Android.armeabi-v7a=[  ]
 X11.64=[  ]

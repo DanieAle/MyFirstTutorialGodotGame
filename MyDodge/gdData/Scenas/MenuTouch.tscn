@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://gdData/Font/new_dynamicfont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://bin/GDMenuTouch.gdns" type="Script" id=2]
+[ext_resource path="res://assets/art/button_1.png" type="Texture" id=3]
+[ext_resource path="res://assets/art/button_2.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 50, 50 )
+
+[node name="Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+modulate = Color( 0.972549, 0.972549, 0.972549, 1 )
+position = Vector2( 30, 98 )
+scale = Vector2( 1.23, 0.46 )
+normal = ExtResource( 3 )
+pressed = ExtResource( 4 )
+shape = SubResource( 1 )
+action = "start"
+
+[node name="Titulo" type="Label" parent="."]
+margin_right = 183.0
+margin_bottom = 98.0
+custom_fonts/font = ExtResource( 1 )
+text = "Dodge the creeps!"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Contador" type="Label" parent="."]
+margin_left = 60.0
+margin_top = -200.0
+margin_right = 130.0
+margin_bottom = -130.0
+custom_fonts/font = ExtResource( 1 )
+text = "0
+"
+align = 1
+valign = 1

@@ -50,6 +50,7 @@ void GDCollisionPlayer::_init(){
 }
 void GDCollisionPlayer::_input(const Ref<InputEvent> event){
     input_pc(event);
+    
 }
 
 void GDCollisionPlayer::move(float delta){

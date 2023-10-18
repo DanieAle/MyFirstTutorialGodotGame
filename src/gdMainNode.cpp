@@ -29,7 +29,7 @@ void GDMainNode::_ready(){
     view->set_size_override(true,Vector2(400, 600)); 
     myControl = Object::cast_to<Control>(get_child(8));
     if(myControl){
-        myControl->connect("_start_game",this,"_start_game");
+        myControl->connect("_start",this,"_start_game");
     }
     audio = Object::cast_to<AudioStreamPlayer>(get_child(9));
     audio_defeat = Object::cast_to<AudioStreamPlayer>(get_child(10));

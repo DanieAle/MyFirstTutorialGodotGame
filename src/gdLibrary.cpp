@@ -4,6 +4,8 @@
 #include "gdMainNode.h"
 #include "gdMenu.h"
 #include "gdController1.h"
+#include "gdControllertouch.h"
+#include "MenuTouch.h"
 
 extern "C" void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *o) {
     godot::Godot::gdnative_init(o);
@@ -22,4 +24,6 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
     godot::register_class<godot::GDMainNode>();
     godot::register_class<godot::GDMenu>();
     godot::register_class<godot::GDController>();
+    godot::register_class<godot::GDControllerTouch>();
+    godot::register_class<godot::GDMenuTouch>();
 }
