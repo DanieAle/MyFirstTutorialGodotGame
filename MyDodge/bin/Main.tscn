@@ -9,11 +9,11 @@
 [ext_resource path="res://gdData/Scenas/SpriteController.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SegmentShape2D" id=1]
-a = Vector2( 400, 0 )
+a = Vector2( 420, 0 )
 b = Vector2( 0, 0 )
 
 [sub_resource type="SegmentShape2D" id=2]
-a = Vector2( 400, 0 )
+a = Vector2( 420, 0 )
 b = Vector2( 0, 0 )
 
 [sub_resource type="SegmentShape2D" id=3]
@@ -40,6 +40,7 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Arriba"]
+position = Vector2( -20, 0 )
 shape = SubResource( 1 )
 
 [node name="Abajo" type="StaticBody2D" parent="."]
@@ -48,6 +49,7 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Abajo"]
+position = Vector2( -20, 0 )
 shape = SubResource( 2 )
 
 [node name="Izquierda" type="StaticBody2D" parent="."]
@@ -63,9 +65,11 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Derecha"]
+position = Vector2( -20, 0 )
 shape = SubResource( 4 )
 
 [node name="Fondo" type="ColorRect" parent="."]
+margin_left = -20.0
 margin_right = 400.0
 margin_bottom = 800.0
 color = Color( 0.0784314, 0.313726, 0.321569, 1 )

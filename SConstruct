@@ -8,8 +8,8 @@ env = DefaultEnvironment()
 
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
-opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
-opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx','android']))
+opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx','android']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'MyDodge/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'libgdMyMain', PathVariable.PathAccept))
@@ -27,8 +27,12 @@ opts.Update(env)
 
 # Process some arguments
 if env['use_llvm']:
-    env['CC'] = 'clang'
-    env['CXX'] = 'clang++'
+    if env['platform'] == 'andrid':
+        env['CC'] = "armv7a-linux-androideabi29-clang++"
+        env['CXX'] = "armv7a-linux-androideabi29-clang++"
+    else:
+        env['CC'] = 'clang'
+        env['CXX'] = 'clang++'
 
 if env['p'] != '':
     env['platform'] = env['p']
@@ -68,13 +72,23 @@ elif env['platform'] == "windows":
         env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '-MDd'])
     else:
         env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
-
+elif env['platform'] == "android":
+    env['target_path'] += 'android/'
+    cpp_library += '.android'
+    if env['target'] in ('debug', 'd'):
+        env.Append(CCFLAGS = ['-fPIC', '-g3','-Og', '-std=c++14'])
+    else:
+        env.Append(CCFLAGS = ['-fPIC', '-g','-O3', '-std=c++14'])
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'
 else:
     cpp_library += '.release'
 
-cpp_library += '.' + str(bits)
+if env['platform'] == "android":
+    cpp_library += ".armv7.a"
+else:
+    cpp_library += '.' + str(bits)
+
 
 # make sure our binding library is properly includes
 env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])

@@ -11,6 +11,7 @@
 #include <Control.hpp>
 #include <SceneTree.hpp>
 #include <AudioStreamPlayer.hpp>
+#include <ColorRect.hpp>
 
 namespace godot {
 
@@ -23,7 +24,6 @@ private:
     KinematicBody2D *myPlayer;
     AudioStreamPlayer *audio;
     AudioStreamPlayer *audio_defeat;
-
 public:
     static void _register_methods();
 

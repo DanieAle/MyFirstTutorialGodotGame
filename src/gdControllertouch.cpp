@@ -64,8 +64,9 @@ void GDControllerTouch::_process(float delta){
 void GDControllerTouch::_input(Ref<InputEvent> event){
     if(true){ 
         if (event.is_valid() && event->is_class("InputEventScreenTouch")) {
-        // Este evento es un toque en la pantalla
-        button = event;
+            // Este evento es un toque en la pantalla
+            button = event;
+            Godot::print(event->get_class());
         }
         if(event.is_valid() && event->is_class("InputEventScreenDrag")){
         mouse = event;

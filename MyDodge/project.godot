@@ -20,11 +20,15 @@ default_bus_layout="res://assets/Sound/background.tres"
 
 [display]
 
-window/size/width=400
+window/size/width=420
 window/size/height=800
 window/handheld/orientation="portrait"
-window/stretch/mode="2d"
+window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[gdnative]
+
+singletons=[  ]
 
 [gui]
 
@@ -62,6 +66,7 @@ pointing/emulate_mouse_from_touch=false
 [mono]
 
 project/assembly_name="MyDodge"
+export/aot/android_toolchain_path="/home/ale/Android/sdk/ndk/23.2.8568313/toolchains/llvm/prebuilt/linux-x86_64/bin"
 
 [physics]
 
