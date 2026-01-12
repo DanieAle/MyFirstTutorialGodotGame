@@ -1,66 +1,30 @@
-.env
-godot-cpp
-SConstruct
-mono_crash*
-settings.json
-Build
-.so
-.os
-art
-MyDodge/*
-.cache
-.xml
-.mono
-android
-.import
-.godot
-MyDodge (copia)/default_env.tres
-MyDodge (copia)/export_presets.cfg
-MyDodge (copia)/icon.png
-MyDodge (copia)/icon.png.import
-MyDodge (copia)/Main.gd
-MyDodge (copia)/Node.gd
-MyDodge (copia)/Node2D.gd
-MyDodge (copia)/project.godot
-MyDodge (copia)/assets/.DS_Store
-MyDodge (copia)/assets/Sound/background.tres
-MyDodge (copia)/assets/Sound/defeat.tres
-MyDodge (copia)/assets/fonts/FONTLOG.txt
-MyDodge (copia)/assets/fonts/LICENSE.txt
-MyDodge (copia)/assets/fonts/Xolonium-Regular.ttf
-MyDodge (copia)/bin/GDCollisionEnemy.gdns
-MyDodge (copia)/bin/GDCollisionPlayer.gdns
-MyDodge (copia)/bin/GDController.gdns
-MyDodge (copia)/bin/GDControllerTouch.gdns
-MyDodge (copia)/bin/GDMenuTouch.gdns
-MyDodge (copia)/bin/gdNativeLibraryMain.gdnlib
-MyDodge (copia)/bin/GDSprite.gdns
-MyDodge (copia)/bin/Main.tscn
-MyDodge (copia)/bin/NativeScriptGDColision.gdns
-MyDodge (copia)/bin/NativeScriptGDEnemy.gdns
-MyDodge (copia)/bin/NativeScriptGDEnemyColision.gdns
-MyDodge (copia)/bin/NativeScriptGDKeys.gdns
-MyDodge (copia)/bin/NativeScriptGDMainNode.gdns
-MyDodge (copia)/bin/NativeScriptGDMenu.gdns
-MyDodge (copia)/bin/NativeScriptMyMain.gdns
-MyDodge (copia)/bin/test.gd
-MyDodge (copia)/bin/arm64v8/libAndroid_arm64v8.so
-MyDodge (copia)/bin/armv7/libAndroid_armv7.so
-MyDodge (copia)/bin/x11/libgdMyMain.so
-MyDodge (copia)/bin/x86/libAndroid_x86.so
-MyDodge (copia)/bin/x86_64/libAndroid_x86_64.so
-MyDodge (copia)/gdData/Font/Font.tres
-MyDodge (copia)/gdData/Font/new_dynamicfont.tres
-MyDodge (copia)/gdData/Scenas/EnemyBody2d.tscn
-MyDodge (copia)/gdData/Scenas/MainTouch.tscn
-MyDodge (copia)/gdData/Scenas/Menu.tscn
-MyDodge (copia)/gdData/Scenas/MenuTouch.tscn
-MyDodge (copia)/gdData/Scenas/Node.tscn
-MyDodge (copia)/gdData/Scenas/PlayerBody2d.tscn
-MyDodge (copia)/gdData/Scenas/SpriteController.tscn
-MyDodge (copia)/gdData/Scenas/Titulo.gd
-MyDodge (copia)/gdData/Scenas/TouchScreenButton.gd
-MyDodge (copia)/gdData/animation/Resource/Enemy_Frames.tres
-MyDodge (copia)/gdData/animation/Resource/Player_Frames.tres
-.vscode/c_cpp_properties.json
-MyDodge/.mono/metadata/ide_messaging_meta.txt
+# Godot
+.import/
+.export/
+.export_presets.cfg
+
+# Mono / C#
+.mono/
+*.pdb
+*.dll
+*.xml
+*.json
+# Build outputs
+bin/
+build/
+*.so
+*.dll
+*.exe
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# Editor
+.vscode/
+.idea/
+
+# Carpetas
+Build/
+android/
