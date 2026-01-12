@@ -24,6 +24,7 @@ private:
     KinematicBody2D *myPlayer;
     AudioStreamPlayer *audio;
     AudioStreamPlayer *audio_defeat;
+    ColorRect *rect;
 public:
     static void _register_methods();
 

@@ -13,11 +13,8 @@ namespace godot{
 class GDControllerTouch : public Sprite {
     GODOT_CLASS(GDControllerTouch, Sprite)
 private:
-    Vector2 max_position;
-    Vector2 min_position;
     Vector2 parent_pos;
-    Vector2 range_x;
-    Vector2 range_y;
+    Vector2 parent_scale;
     bool button_release;
     bool enabled;
     Ref<InputEventScreenTouch> button;
@@ -40,15 +37,15 @@ public:
     //New methods
     void set_refs(Sprite *&sprite);
     void valid_obj_connect(Sprite *&sprite, String name_signal, String name_method);
-    void isOut();
-    bool is_in_Range(Vector2 pos);
+    bool is_in_Range(float distance);
     void new_position(Vector2 pos);
     int Operation(int value);
     bool valid();
     void send_signal();
-    int normalize(int value);
     void set_enabled(bool value);
     void move();
+    float convert_degree(float angle);
+    Vector2 get_direction(Vector2 pos);
 };
 }
 

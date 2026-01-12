@@ -31,7 +31,7 @@ void GDMainNode::_ready(){
     }
     audio = Object::cast_to<AudioStreamPlayer>(get_child(9));
     audio_defeat = Object::cast_to<AudioStreamPlayer>(get_child(10));
-    ColorRect *rect = Object::cast_to<ColorRect>(get_child(7));
+    rect = Object::cast_to<ColorRect>(get_child(6));
     Rect2 mySize = get_viewport_rect();
     rect->set_size(mySize.get_size());
 }
