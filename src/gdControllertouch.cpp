@@ -153,7 +153,8 @@ void GDControllerTouch::send_signal(){
     emit_signal("move",Vector2(x,y));
 }
 float GDControllerTouch::convert_degree(float angle){
-    return angle * 180/M_PI;
+    //return angle * 180/M_PI;
+    return angle * 180/3.14;
 }
 Vector2 GDControllerTouch::get_direction(Vector2 pos){
     int direction_x = 1;
