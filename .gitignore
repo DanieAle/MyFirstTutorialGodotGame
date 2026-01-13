@@ -28,7 +28,12 @@ cmake_install.cmake
 # Carpetas
 Build/
 android/
-
+x86_64/
+x86/
+x11/
+windows/
+arm64v8/
+Android/
 # Archivos
 *.o
 *.os
