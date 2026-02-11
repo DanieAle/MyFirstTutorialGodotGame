@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://gdData/Font/new_dynamicfont.tres" type="DynamicFont" id=1]
-[ext_resource path="res://bin/NativeScriptGDMenu.gdns" type="Script" id=2]
+[ext_resource path="res://native/gdnative/NativeScriptGDMenu.gdns" type="Script" id=2]
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0

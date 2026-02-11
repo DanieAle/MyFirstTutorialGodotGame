@@ -10,7 +10,7 @@ extends Node
 
 
 func _ready():
-	var lib_path = "res://bin/armv7/libAndroid_armv7.so"
+	var lib_path = "res://native/bin/armv7/libAndroid_armv7.so"
 	var library = Engine.get_singleton("NativeLibrary")
 	if not library:
 		push_error("El módulo NativeLibrary no está disponible.")

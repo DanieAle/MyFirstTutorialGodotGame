@@ -1,5 +1,5 @@
 #include "gdMainNode.h"
-
+#include "iostream"
 using namespace godot;
 
 void GDMainNode::_register_methods(){
@@ -20,7 +20,9 @@ GDMainNode::~GDMainNode(){
     
 }
 
-void GDMainNode::_ready(){
+void GDMainNode::_ready(){\
+    Godot::print("aqui tamanio");
+    Godot::print(get_viewport()->get_size().width);
     Godot::print("Main Ready...");
     for(int i =0;i< 4; i++){
         create_enemy();
@@ -49,7 +51,7 @@ void GDMainNode::_is_dead(String name){
     }
 }
 void GDMainNode::create_enemy(){
-    Ref<PackedScene> enemy_scene = ResourceLoader::get_singleton()->load("res://gdData/Scenas/EnemyBody2d.tscn");
+    Ref<PackedScene> enemy_scene = ResourceLoader::get_singleton()->load("res://scenes/enemy/EnemyBody2d.tscn");
 
     Node2D *enemy_instance = Object::cast_to<Node2D>(enemy_scene->instance());
     enemy_instance->add_to_group("KinetmaticBody2D");

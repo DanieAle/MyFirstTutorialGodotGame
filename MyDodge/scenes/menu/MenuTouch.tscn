@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://gdData/Font/new_dynamicfont.tres" type="DynamicFont" id=1]
-[ext_resource path="res://bin/GDMenuTouch.gdns" type="Script" id=2]
+[ext_resource path="res://native/gdnative/GDMenuTouch.gdns" type="Script" id=2]
 [ext_resource path="res://assets/art/button_1.png" type="Texture" id=3]
 [ext_resource path="res://assets/art/button_2.png" type="Texture" id=4]
 

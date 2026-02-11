@@ -4,8 +4,8 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-//var data = preload("res://bin/GDMenuTouch.gdns").new()
-onready var sceneMenu = preload("res://gdData/Scenas/MenuTouch.tscn")
+var data = preload("res://native/gdnative/GDMenuTouch.gdns").new()
+onready var sceneMenu = preload("res://scenes/menu/MenuTouch.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var menu = sceneMenu.instance()

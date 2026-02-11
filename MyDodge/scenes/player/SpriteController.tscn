@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/art/joy1.png" type="Texture" id=1]
 [ext_resource path="res://assets/art/joy2.png" type="Texture" id=2]
-[ext_resource path="res://bin/GDControllerTouch.gdns" type="Script" id=3]
+[ext_resource path="res://native/gdnative/GDControllerTouch.gdns" type="Script" id=3]
 
 [node name="Sprite" type="Sprite"]
 position = Vector2( 200, 680 )

@@ -11,8 +11,11 @@ opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx','android']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx','android']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
-opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'MyDodge/bin/'))
+opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'MyDodge/native/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'libgdMyMain', PathVariable.PathAccept))
+opts.Add(BoolVariable("use_mingw", "Use MinGW instead of MSVC", False))
+opts.Update(env)
+
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/godot-headers/"
@@ -66,12 +69,22 @@ elif env['platform'] == "windows":
     # This makes sure to keep the session environment variables on windows,
     # that way you can run scons in a vs 2017 prompt and it will find all the required tools
     env.Append(ENV = os.environ)
-
-    env.Append(CCFLAGS = ['-DWIN32', '-D_WIN32', '-D_WINDOWS', '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS'])
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '-MDd'])
+    if env['use_mingw']:
+        print("Compilando con MinGW")
+        env.Replace(CC='gcc',
+                    CXX='g++')
+        env.Append(CCFLAGS = ['-std=c++17'])
+        env.Append(LINKEDFLAGS = ['-shared'])
+        if env['target'] in ('debug', 'd'):
+            env.Append(CCFLAGS = ['-g', '-O0'])
+        else:
+            env.Append(CCFLAGS = ['-O2', '-DNDEBUG'])
     else:
-        env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
+        env.Append(CCFLAGS = ['-DWIN32', '-D_WIN32', '-D_WINDOWS', '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS'])
+        if env['target'] in ('debug', 'd'):
+            env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '-MDd'])
+        else:
+            env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
 elif env['platform'] == "android":
     env['target_path'] += 'android/'
     cpp_library += '.android'
