@@ -12,6 +12,7 @@ void GDMenuTouch::_register_methods(){
     register_method("_restart", &GDMenuTouch::_restart);
     
     register_signal<GDMenuTouch, bool>((char *)"_start", "play",GODOT_VARIANT_TYPE_BOOL);
+    register_signal<GDMenuTouch>((char *)"_reset");
 }
 
 GDMenuTouch::GDMenuTouch(){
@@ -24,15 +25,12 @@ GDMenuTouch::~GDMenuTouch(){
 
 void GDMenuTouch::_ready(){
     Godot::print("Menu Ready...");
-    button = Object::cast_to<TouchScreenButton>(get_child(0));
+    button = Object::cast_to<TouchScreenButton>(get_node("Button"));
     button->connect("pressed",this,"_button_down");
-    myLabel = Object::cast_to<Label>(get_child(1));
-    myTimer = Object::cast_to<Timer>(get_child(2));
+    myLabel = Object::cast_to<Label>(get_node("Titulo"));
+    myTimer = Object::cast_to<Timer>(get_node("Timer"));
     myTimer->connect("timeout", this, "_time_end");
-    myTimer2 = Object::cast_to<Timer>(get_child(3));
-    myTimer2->connect("timeout", this, "_restart");
-    get_parent()->connect("_defeat", this, "_game_Over");
-    myLabel2 = Object::cast_to<Label>(get_child(4));
+    connect("_reset",this,"_restart");
 }
 void GDMenuTouch::_init(){
     Godot::print("Menu Init...");
@@ -69,4 +67,6 @@ void GDMenuTouch::_game_Over(){
 void GDMenuTouch::_restart(){
     myLabel->set_text(myTitles[0]);
     button->set_visible(true);
+    tiempo_transcurrido = 0.0;
+    start = false;
 }
