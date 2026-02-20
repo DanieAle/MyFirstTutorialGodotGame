@@ -12,7 +12,6 @@ void GDMenuTouch::_register_methods(){
     register_method("_restart", &GDMenuTouch::_restart);
     
     register_signal<GDMenuTouch, bool>((char *)"_start", "play",GODOT_VARIANT_TYPE_BOOL);
-    register_signal<GDMenuTouch>((char *)"_reset");
 }
 
 GDMenuTouch::GDMenuTouch(){

@@ -25,7 +25,10 @@ b = Vector2( 0, 0 )
 script = ExtResource( 3 )
 
 [node name="ControlLayout" parent="." instance=ExtResource( 1 )]
+margin_right = 429.0
+margin_bottom = 797.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Arriba" type="StaticBody2D" parent="."]
 collision_layer = 4

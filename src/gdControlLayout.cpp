@@ -4,6 +4,8 @@ using namespace godot;
 void GDControlLayout::_register_methods(){
     register_method("_ready", GDControlLayout::_ready);
     register_method("_init", GDControlLayout::_init);
+
+    register_signal<GDControlLayout>((char *)"_reset");
 }
 GDControlLayout::GDControlLayout(){}
 GDControlLayout::~GDControlLayout(){}
@@ -11,7 +13,7 @@ GDControlLayout::~GDControlLayout(){}
 void GDControlLayout::_init(){
 }
 void GDControlLayout::_ready(){
-    size = get_viewport_rect();
+    /*size = get_viewport_rect();
     real_t value = 0.3F;
     menu = Object::cast_to<Control>(get_node("Menu"));
     background = Object::cast_to<ColorRect>(get_node("Fondo"));
@@ -23,5 +25,5 @@ void GDControlLayout::_ready(){
     };
     menu->set_position(position);
     Godot::print(menu->get_position());
-    Godot::print(size.size);
+    Godot::print(size.size);*/
 }
