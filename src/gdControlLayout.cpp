@@ -13,6 +13,7 @@ GDControlLayout::~GDControlLayout(){}
 void GDControlLayout::_init(){
 }
 void GDControlLayout::_ready(){
+    set_size(get_viewport_rect().get_size());
     /*size = get_viewport_rect();
     real_t value = 0.3F;
     menu = Object::cast_to<Control>(get_node("Menu"));

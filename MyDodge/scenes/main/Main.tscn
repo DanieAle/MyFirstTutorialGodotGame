@@ -25,8 +25,8 @@ b = Vector2( 0, 0 )
 script = ExtResource( 3 )
 
 [node name="ControlLayout" parent="." instance=ExtResource( 1 )]
-margin_right = 429.0
-margin_bottom = 797.0
+margin_right = 420.0
+margin_bottom = 800.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

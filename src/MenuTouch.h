@@ -20,6 +20,7 @@ private:
     Timer *myTimer;
     Timer *myTimer2;
     float tiempo_transcurrido;
+    Control *layout;
     bool start;
 public:
     static void _register_methods();
