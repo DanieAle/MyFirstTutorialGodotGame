@@ -4,6 +4,9 @@
 #include <Godot.hpp>
 #include <Control.hpp>
 #include <ColorRect.hpp>
+#include <Timer.hpp>
+#include <Label.hpp>
+
 namespace godot {
 
 class GDControlLayout : public Control {
@@ -12,6 +15,9 @@ private:
 Rect2 size;
 ColorRect *background;
 Control *menu;
+Label *contador;
+Timer *tContador;
+int lastTime = 0;
 public:
     static void _register_methods();
 
@@ -20,8 +26,9 @@ public:
 
     void _ready();
     void _init();
-
-
+    void _process(float delta);
+    void initialize(bool play);
+    void win();
 };
 
 }

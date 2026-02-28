@@ -2,10 +2,12 @@
 
 using namespace godot;
 void GDControlLayout::_register_methods(){
-    register_method("_ready", GDControlLayout::_ready);
-    register_method("_init", GDControlLayout::_init);
+    register_method("_ready", &GDControlLayout::_ready);
+    register_method("_init", &GDControlLayout::_init);
+    register_method("_process", &GDControlLayout::_process);
+    register_method("initialize", &GDControlLayout::initialize);
+    register_method("win", &GDControlLayout::win);
 
-    register_signal<GDControlLayout>((char *)"_reset");
 }
 GDControlLayout::GDControlLayout(){}
 GDControlLayout::~GDControlLayout(){}
@@ -14,17 +16,26 @@ void GDControlLayout::_init(){
 }
 void GDControlLayout::_ready(){
     set_size(get_viewport_rect().get_size());
-    /*size = get_viewport_rect();
-    real_t value = 0.3F;
     menu = Object::cast_to<Control>(get_node("Menu"));
-    background = Object::cast_to<ColorRect>(get_node("Fondo"));
-    background->set_size(size.get_size());
-    menu->set_size(size.get_size());
-    Vector2 position = {
-        size.size.x*value,
-        size.size.y*value
-    };
-    menu->set_position(position);
-    Godot::print(menu->get_position());
-    Godot::print(size.size);*/
+    contador = Object::cast_to<Label>(get_node("Contador"));
+    tContador = Object::cast_to<Timer>(get_node("TContador"));
+    menu->connect("_start",this,"initialize");
+    tContador->connect("timeout", this, "win");
+    lastTime = int(tContador->get_time_left());
+}
+void GDControlLayout::_process(float delta){
+   int time = int(tContador->get_time_left());
+   if(lastTime != time){
+   int segundos = int(100 - time);
+   contador->set_text(String::num(segundos));
+   lastTime = time;
+   }
+}
+void GDControlLayout::initialize(bool play){
+    Godot::print("start contador");
+    contador->set_visible(play);
+    tContador->start();
+}
+void GDControlLayout::win(){
+    contador->set_text("0");
 }

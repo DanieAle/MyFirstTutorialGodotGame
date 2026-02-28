@@ -5,7 +5,6 @@ using namespace godot;
 void GDMenuTouch::_register_methods(){
     register_method("_ready", &GDMenuTouch::_ready);
     register_method("_init", &GDMenuTouch::_init);
-    register_method("_process", &GDMenuTouch::_process);
     register_method("_button_down", &GDMenuTouch::_button_down);
     register_method("_time_end", &GDMenuTouch::_time_end);
     register_method("_game_Over", &GDMenuTouch::_game_Over);
@@ -29,19 +28,11 @@ void GDMenuTouch::_ready(){
     myLabel = Object::cast_to<Label>(get_node("Titulo"));
     myTimer = Object::cast_to<Timer>(get_node("Timer"));
     myTimer->connect("timeout", this, "_time_end");
-    connect("_reset",this,"_restart");
 }
 void GDMenuTouch::_init(){
     Godot::print("Menu Init...");
     tiempo_transcurrido = 0.0;
     start = false;
-}
-void GDMenuTouch::_process(float delta){
-    if(start){
-        tiempo_transcurrido += delta;
-        int segundos = int(tiempo_transcurrido);
-        myLabel2->set_text(String::num(segundos));
-    }
 }
 
 void GDMenuTouch::_button_down(){
@@ -52,7 +43,8 @@ void GDMenuTouch::_button_down(){
 }
 void GDMenuTouch::_time_end(){
     myLabel->set_visible(false);
-    start = true;
+    
+    Godot::print("Timer end");
     emit_signal("_start", true);
 }
 void GDMenuTouch::_game_Over(){
