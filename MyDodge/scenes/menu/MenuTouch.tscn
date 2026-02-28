@@ -2,8 +2,8 @@
 
 [ext_resource path="res://gdData/Font/new_dynamicfont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://native/gdnative/GDMenuTouch.gdns" type="Script" id=2]
-[ext_resource path="res://assets/art/button_1.png" type="Texture" id=3]
-[ext_resource path="res://assets/art/button_2.png" type="Texture" id=4]
+[ext_resource path="res://assets/art/button_2v2.png" type="Texture" id=3]
+[ext_resource path="res://assets/art/button_1v2.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 50, 50 )
@@ -32,9 +32,29 @@ autowrap = true
 modulate = Color( 0.972549, 0.972549, 0.972549, 1 )
 position = Vector2( -64, 49 )
 scale = Vector2( 1.23, 0.46 )
-normal = ExtResource( 3 )
-pressed = ExtResource( 4 )
+normal = ExtResource( 4 )
+pressed = ExtResource( 3 )
 shape = SubResource( 1 )
+__meta__ = {
+"_editor_description_": "Start"
+}
+
+[node name="BLabel" type="Label" parent="Button"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.1138
+margin_top = -52.1739
+margin_right = 62.8862
+margin_bottom = 56.8261
+rect_scale = Vector2( 0.7, 1 )
+size_flags_vertical = 2
+custom_colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "START"
+align = 1
+valign = 1
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
