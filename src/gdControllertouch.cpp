@@ -23,14 +23,13 @@ void GDControllerTouch::_ready(){
     Godot::print("Ready....GDControllerTouch");
     Vector2 tope = Vector2(30,30);
     Sprite *parent = Object::cast_to<Sprite>(get_parent());
-    parent_pos = parent->get_position();
+    base = Object::cast_to<Node2D>(get_parent());
     parent_scale = parent->get_scale();
     button_release = false;
     texture1 = ResourceLoader::get_singleton()->load("res://assets/art/joy2.png");
     texture2 = ResourceLoader::get_singleton()->load("res://assets/art/joy2_2.png");
 }
-void GDControllerTouch::_init(){
-    
+void GDControllerTouch::_init(){    
 }
 void GDControllerTouch::_process(float delta){
     int x = 0;
@@ -68,33 +67,8 @@ void GDControllerTouch::_input(Ref<InputEvent> event){
         }
     }
 }
-//New methods
-void GDControllerTouch::set_refs(Sprite *&sprite) {
-    int i = 0;
-    int child_count = get_child_count();
-    while (i < child_count) {
-        //Node *node = get_child(i);
-        if (get_child(i)->is_class("Sprite")) {
-            sprite = Object::cast_to<Sprite>(get_child(i));
-            break;
-        }
-        i++;
-    }
-}
-void GDControllerTouch::valid_obj_connect(Sprite *&sprite,String name_signal,String name_method){
-    if(sprite){
-        connect(name_signal, sprite,name_method);
-    }
-
-}
 bool GDControllerTouch::is_in_Range(float distance){
     return distance < 60;
-}
-void GDControllerTouch::new_position(Vector2 pos){
-    Vector2 position = pos-parent_pos;
-    float x = position.x/parent_scale.x;
-    float y = position.y/parent_scale.y;
-    set_position(Vector2(x,y));
 }
 int GDControllerTouch::Operation(int value){
     int response = 0;
@@ -114,19 +88,17 @@ void GDControllerTouch::set_enabled(bool value){
 }
 
 void GDControllerTouch::move(){
-    Vector2 position = mouse->get_position();
-    float x1 = parent_pos.x;
-    float x2 = position.x;
+    Vector2 mouse_local = base->get_local_mouse_position();
 
-    float y1 = parent_pos.y;
-    float y2 = position.y;
-
-    float distance = sqrt(pow((x2-x1),2)+pow((y2-y1),2));
-    if(is_in_Range(distance)){
-        new_position(position);
-        button_release = false;
-        set_texture(texture2);
-        send_signal();
+    float max_radius = 60.0;
+    if(mouse_local.length() > max_radius){
+        mouse_local = mouse_local.normalized() * max_radius;
+    }
+    if(mouse_local.length() < 30){
+    set_position(mouse_local);
+    button_release = false;
+    set_texture(texture2);
+    send_signal();
     }
 }
 void GDControllerTouch::send_signal(){
@@ -157,13 +129,8 @@ float GDControllerTouch::convert_degree(float angle){
     return angle * 180/3.14;
 }
 Vector2 GDControllerTouch::get_direction(Vector2 pos){
-    int direction_x = 1;
-    int direction_y = 1;
-    if(pos.x < 0){
-        direction_x = -1;
-    }
-    if(pos.y < 0){
-        direction_y = -1;
-    }
+    int direction_x = pos.x < 0 ? -1 : 1;
+    int direction_y = pos.y < 0 ? -1 : 1;
+    
     return Vector2(direction_x,direction_y);
 }

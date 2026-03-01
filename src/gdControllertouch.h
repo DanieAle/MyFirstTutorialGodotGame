@@ -19,6 +19,7 @@ private:
     bool enabled;
     Ref<InputEventScreenTouch> button;
     Ref<InputEventScreenDrag> mouse;
+    Node2D *base;
     Ref<Texture> texture1;
     Ref<Texture> texture2;
 public:
