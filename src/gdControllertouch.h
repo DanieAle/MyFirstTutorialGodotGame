@@ -22,11 +22,13 @@ private:
     Node2D *base;
     Ref<Texture> texture1;
     Ref<Texture> texture2;
+    bool active = false;
+    float max_radius = 60.0;
 public:
     static void _register_methods();
 
-    GDControllerTouch();
-    ~GDControllerTouch();
+    GDControllerTouch() = default;
+    ~GDControllerTouch() = default;
 
     //Defautl methods
     void _ready();
@@ -36,10 +38,7 @@ public:
     //Event methods
 
     //New methods
-    void set_refs(Sprite *&sprite);
-    void valid_obj_connect(Sprite *&sprite, String name_signal, String name_method);
     bool is_in_Range(float distance);
-    void new_position(Vector2 pos);
     int Operation(int value);
     bool valid();
     void send_signal();

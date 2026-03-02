@@ -14,11 +14,6 @@ void GDControllerTouch::_register_methods(){
     register_signal<GDControllerTouch>((char*)"move","pos",GODOT_VARIANT_TYPE_VECTOR2);
     register_signal<GDControllerTouch,String>((char *)"stop","response",GODOT_VARIANT_TYPE_STRING);
 }
-GDControllerTouch::GDControllerTouch(){
-}
-GDControllerTouch::~GDControllerTouch(){
-
-}
 void GDControllerTouch::_ready(){
     Godot::print("Ready....GDControllerTouch");
     Vector2 tope = Vector2(30,30);
@@ -45,27 +40,40 @@ void GDControllerTouch::_process(float delta){
         set_position(reducir);
     }
     if(valid()){
-        if(button->is_pressed()){
+        if(active){
             move();
         }
-        else if(!button->is_pressed()){
+        /*else if(!button->is_pressed()){
             button_release = true;
             set_texture(texture1);
             emit_signal("stop","release");
-        }
+        }*/
     }
 
 }
 void GDControllerTouch::_input(Ref<InputEvent> event){
-    if(true){ 
-        if (event.is_valid() && event->is_class("InputEventScreenTouch")) {
-            //toque en la pantalla
-            button = event;
+    if (event.is_valid() && event->is_class("InputEventScreenTouch")) {
+        //toque en la pantalla
+        Ref<InputEventScreenTouch> touch = event;
+        if(touch->is_pressed()){
+            Vector2 local_pos = base->to_local(touch->get_position());
+            if(local_pos.length() <= 50){
+                active = true;
+                set_texture(texture2);
+                
+            }
         }
-        if(event.is_valid() && event->is_class("InputEventScreenDrag")){
-        mouse = event;
+        else {
+            active = false;
+            button_release = true;
+            set_texture(texture1);
+            emit_signal("stop", "release");
         }
     }
+    if(event.is_valid() && event->is_class("InputEventScreenDrag")){
+        mouse = event;
+    }
+    
 }
 bool GDControllerTouch::is_in_Range(float distance){
     return distance < 60;
@@ -88,6 +96,7 @@ void GDControllerTouch::set_enabled(bool value){
 }
 
 void GDControllerTouch::move(){
+    if(!active) return;
     Vector2 mouse_local = base->get_local_mouse_position();
 
     float max_radius = 60.0;
@@ -96,9 +105,8 @@ void GDControllerTouch::move(){
     }
     if(mouse_local.length() < 30){
     set_position(mouse_local);
-    button_release = false;
-    set_texture(texture2);
-    send_signal();
+
+    //send_signal();
     }
 }
 void GDControllerTouch::send_signal(){
@@ -131,6 +139,6 @@ float GDControllerTouch::convert_degree(float angle){
 Vector2 GDControllerTouch::get_direction(Vector2 pos){
     int direction_x = pos.x < 0 ? -1 : 1;
     int direction_y = pos.y < 0 ? -1 : 1;
-    
+
     return Vector2(direction_x,direction_y);
 }
