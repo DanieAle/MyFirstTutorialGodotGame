@@ -21,21 +21,14 @@ GDMainNode::~GDMainNode(){
 }
 
 void GDMainNode::_ready(){\
-    Godot::print("aqui tamanio");
-    Godot::print(get_viewport()->get_size().width);
     Godot::print("Main Ready...");
-    for(int i =0;i< 4; i++){
+    /* for(int i =0;i< 4; i++){
         create_enemy();
     }
     myControl = Object::cast_to<Control>(get_child(8));
     if(myControl){
         myControl->connect("_start",this,"_start_game");
-    }
-    audio = Object::cast_to<AudioStreamPlayer>(get_child(9));
-    audio_defeat = Object::cast_to<AudioStreamPlayer>(get_child(10));
-    rect = Object::cast_to<ColorRect>(get_child(6));
-    Rect2 mySize = get_viewport_rect();
-    rect->set_size(mySize.get_size());
+    }*/
 }
 void GDMainNode::_init(){
     Godot::print("Main Init...");

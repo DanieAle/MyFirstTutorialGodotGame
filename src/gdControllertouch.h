@@ -13,19 +13,21 @@ namespace godot{
 class GDControllerTouch : public Sprite {
     GODOT_CLASS(GDControllerTouch, Sprite)
 private:
-    Vector2 parent_pos;
-    Vector2 parent_scale;
-    bool button_release;
-    bool enabled;
-    Ref<InputEventScreenTouch> button;
-    Ref<InputEventScreenDrag> mouse;
-    Ref<Texture> texture1;
-    Ref<Texture> texture2;
+    bool button_release = false;
+    Node2D *base;
+    Sprite *ring;
+    String dirBaseTexture;
+    String dirPressTexture;
+    Ref<Texture> baseTexture;
+    Ref<Texture> pressTexture;
+    bool active = false;
+    float max_radius = 27.0;
+    float_t lastpos = 0;
 public:
     static void _register_methods();
 
-    GDControllerTouch();
-    ~GDControllerTouch();
+    GDControllerTouch() = default;
+    ~GDControllerTouch() = default;
 
     //Defautl methods
     void _ready();
@@ -35,17 +37,14 @@ public:
     //Event methods
 
     //New methods
-    void set_refs(Sprite *&sprite);
-    void valid_obj_connect(Sprite *&sprite, String name_signal, String name_method);
-    bool is_in_Range(float distance);
-    void new_position(Vector2 pos);
     int Operation(int value);
-    bool valid();
     void send_signal();
-    void set_enabled(bool value);
     void move();
-    float convert_degree(float angle);
     Vector2 get_direction(Vector2 pos);
+    void isInRange(Ref<InputEventScreenTouch> touch);
+    void release();
+    void getSpriteback();
+    bool isMaxRange(real_t value);
 };
 }
 

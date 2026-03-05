@@ -38,3 +38,5 @@ Android/
 *.o
 *.os
 .sconsign.dblite
+*.kra
+*.import

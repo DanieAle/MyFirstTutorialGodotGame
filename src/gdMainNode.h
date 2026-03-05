@@ -18,13 +18,15 @@ namespace godot {
 class GDMainNode : public Node2D {
     GODOT_CLASS(GDMainNode, Node2D)
 private:
-    Camera2D camera;
+    Camera2D *camera;
+    Control *menu;
     Viewport *view;
     Control *myControl;
     KinematicBody2D *myPlayer;
     AudioStreamPlayer *audio;
     AudioStreamPlayer *audio_defeat;
     ColorRect *rect;
+    Control *layout;
 public:
     static void _register_methods();
 

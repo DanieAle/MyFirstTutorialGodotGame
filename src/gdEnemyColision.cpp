@@ -26,7 +26,7 @@ void GDEnemyColision::_ready(){
     max_x = rec.size.x;
     max_y = rec.size.y;
     int64_t index = 0;
-    sprite = Object::cast_to<Sprite>(get_child(index)); // Cambia "path_to_sprite" al camino real en tu escena
+    sprite = Object::cast_to<Sprite>(get_child(index)); // Cambia "path_to_sprite" al camino real en la scena
     if (sprite) {
         connect("change_animation", sprite, "_out_Of_Screen");
     }
