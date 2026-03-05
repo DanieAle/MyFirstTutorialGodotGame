@@ -12,14 +12,18 @@ void GDControllerTouch::_register_methods(){
     //Registro de Signals
     register_signal<GDControllerTouch>((char*)"move","pos",GODOT_VARIANT_TYPE_VECTOR2);
     register_signal<GDControllerTouch,String>((char *)"stop","response",GODOT_VARIANT_TYPE_STRING);
+
+    register_property<GDControllerTouch,Ref<Texture>>("Texture_base",&GDControllerTouch::baseTexture,Ref<Texture>(),
+GODOT_METHOD_RPC_MODE_DISABLED,GODOT_PROPERTY_USAGE_DEFAULT,GODOT_PROPERTY_HINT_RESOURCE_TYPE,"Texture");
+    register_property<GDControllerTouch,Ref<Texture>>("Texture_press",&GDControllerTouch::pressTexture,Ref<Texture>(),
+GODOT_METHOD_RPC_MODE_DISABLED,GODOT_PROPERTY_USAGE_DEFAULT,GODOT_PROPERTY_HINT_RESOURCE_TYPE,"Texture");
 }
 void GDControllerTouch::_ready(){
     Godot::print("Ready....GDControllerTouch");
     Vector2 tope = Vector2(30,30);
     Sprite *parent = Object::cast_to<Sprite>(get_parent());
     base = Object::cast_to<Node2D>(get_parent());
-    baseTexture = ResourceLoader::get_singleton()->load("res://assets/art/joy2.png");
-    pressTexture = ResourceLoader::get_singleton()->load("res://assets/art/joy2_2.png");
+    ring = Object::cast_to<Sprite>(base->get_node("Ring"));
 }
 void GDControllerTouch::_init(){}
 void GDControllerTouch::_process(float delta){
@@ -29,7 +33,6 @@ void GDControllerTouch::_process(float delta){
     if(active){
         move();
     }
-
 }
 void GDControllerTouch::_input(Ref<InputEvent> event){
     if (event.is_valid() && event->is_class("InputEventScreenTouch")) {
@@ -52,15 +55,13 @@ void GDControllerTouch::move(){
     if(!active) return;
     Vector2 mouse_local = base->get_local_mouse_position();
 
-    float max_radius = 60.0;
     if(mouse_local.length() > max_radius){
         mouse_local = mouse_local.normalized() * max_radius;
     }
-    if(mouse_local.length() < 30){
     set_position(mouse_local);
+    ring->set_visible(isMaxRange(mouse_local.length()));
 
     //send_signal();
-    }
 }
 void GDControllerTouch::send_signal(){
     Vector2 pos = get_position().normalized();
@@ -75,7 +76,7 @@ Vector2 GDControllerTouch::get_direction(Vector2 pos){
 }
 void GDControllerTouch::isInRange(Ref<InputEventScreenTouch> touch){
     Vector2 local_pos = base->to_local(touch->get_position());
-    if(local_pos.length() <= 50){
+    if(local_pos.length() <= max_radius){
         active = true;
         set_texture(pressTexture);
                 
@@ -85,6 +86,7 @@ void GDControllerTouch::isInRange(Ref<InputEventScreenTouch> touch){
 void GDControllerTouch::release(){
     active = false;
     button_release = true;
+    ring->set_visible(false);
     set_texture(baseTexture);
     emit_signal("stop", "release");
 }
@@ -102,4 +104,7 @@ void GDControllerTouch::getSpriteback(){
         set_position(reducir);
     }
     else button_release = false;
+}
+bool GDControllerTouch::isMaxRange(float_t value){
+    return (value > max_radius-1) ? true : false;
 }

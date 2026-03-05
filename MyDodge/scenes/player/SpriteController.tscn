@@ -1,14 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/art/joy1.png" type="Texture" id=1]
-[ext_resource path="res://assets/art/joy2.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/joy2a.png" type="Texture" id=1]
+[ext_resource path="res://assets/art/joy1a.png" type="Texture" id=2]
 [ext_resource path="res://native/gdnative/GDControllerTouch.gdns" type="Script" id=3]
+[ext_resource path="res://assets/art/joy3a.png" type="Texture" id=4]
+[ext_resource path="res://assets/art/joy2_2a.png" type="Texture" id=5]
 
 [node name="Container" type="Sprite"]
 position = Vector2( 0, -112 )
 scale = Vector2( 2.5, 2.5 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 
 [node name="Stick" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 script = ExtResource( 3 )
+Texture_base = ExtResource( 1 )
+Texture_press = ExtResource( 5 )
+
+[node name="Ring" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 4 )

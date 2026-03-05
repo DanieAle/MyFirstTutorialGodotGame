@@ -15,10 +15,14 @@ class GDControllerTouch : public Sprite {
 private:
     bool button_release = false;
     Node2D *base;
+    Sprite *ring;
+    String dirBaseTexture;
+    String dirPressTexture;
     Ref<Texture> baseTexture;
     Ref<Texture> pressTexture;
     bool active = false;
-    float max_radius = 60.0;
+    float max_radius = 27.0;
+    float_t lastpos = 0;
 public:
     static void _register_methods();
 
@@ -40,6 +44,7 @@ public:
     void isInRange(Ref<InputEventScreenTouch> touch);
     void release();
     void getSpriteback();
+    bool isMaxRange(real_t value);
 };
 }
 
