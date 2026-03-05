@@ -18,26 +18,13 @@ void GDControllerTouch::_ready(){
     Vector2 tope = Vector2(30,30);
     Sprite *parent = Object::cast_to<Sprite>(get_parent());
     base = Object::cast_to<Node2D>(get_parent());
-    texture1 = ResourceLoader::get_singleton()->load("res://assets/art/joy2.png");
-    texture2 = ResourceLoader::get_singleton()->load("res://assets/art/joy2_2.png");
+    baseTexture = ResourceLoader::get_singleton()->load("res://assets/art/joy2.png");
+    pressTexture = ResourceLoader::get_singleton()->load("res://assets/art/joy2_2.png");
 }
-void GDControllerTouch::_init(){    
-}
+void GDControllerTouch::_init(){}
 void GDControllerTouch::_process(float delta){
-    int x = 0;
-    int y = 0;
     if(button_release){ 
-        Vector2 position = get_position();
-        if(position != Vector2(0,0)){
-            Vector2 reducir;
-            if(position.x != 0 || position.y != 0){
-            x = Operation(position.x);
-            y = Operation(position.y);
-            }
-            reducir = Vector2(x,y);
-            set_position(reducir);
-        }
-        else button_release = false;
+        getSpriteback();
     }
     if(active){
         move();
@@ -49,25 +36,12 @@ void GDControllerTouch::_input(Ref<InputEvent> event){
         //toque en la pantalla
         Ref<InputEventScreenTouch> touch = event;
         if(touch->is_pressed()){
-            Vector2 local_pos = base->to_local(touch->get_position());
-            if(local_pos.length() <= 50){
-                active = true;
-                set_texture(texture2);
-                
-            }
-            button_release = false;
+            isInRange(touch);
         }
         else if(!touch->is_pressed()){
-            active = false;
-            button_release = true;
-            set_texture(texture1);
-            emit_signal("stop", "release");
+            release();
         }
     }
-    if(event.is_valid() && event->is_class("InputEventScreenDrag")){
-       
-    }
-    
 }
 
 int GDControllerTouch::Operation(int value){
@@ -98,4 +72,34 @@ Vector2 GDControllerTouch::get_direction(Vector2 pos){
     int direction_y = pos.y < 0 ? -1 : 1;
 
     return Vector2(direction_x,direction_y);
+}
+void GDControllerTouch::isInRange(Ref<InputEventScreenTouch> touch){
+    Vector2 local_pos = base->to_local(touch->get_position());
+    if(local_pos.length() <= 50){
+        active = true;
+        set_texture(pressTexture);
+                
+    }
+    button_release = false;
+}
+void GDControllerTouch::release(){
+    active = false;
+    button_release = true;
+    set_texture(baseTexture);
+    emit_signal("stop", "release");
+}
+void GDControllerTouch::getSpriteback(){
+    int x = 0;
+    int y = 0;
+    Vector2 position = get_position();
+    if(position != Vector2(0,0)){
+        Vector2 reducir;
+        if(position.x != 0 || position.y != 0){
+        x = Operation(position.x);
+        y = Operation(position.y);
+        }
+        reducir = Vector2(x,y);
+        set_position(reducir);
+    }
+    else button_release = false;
 }

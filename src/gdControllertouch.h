@@ -15,8 +15,8 @@ class GDControllerTouch : public Sprite {
 private:
     bool button_release = false;
     Node2D *base;
-    Ref<Texture> texture1;
-    Ref<Texture> texture2;
+    Ref<Texture> baseTexture;
+    Ref<Texture> pressTexture;
     bool active = false;
     float max_radius = 60.0;
 public:
@@ -37,6 +37,9 @@ public:
     void send_signal();
     void move();
     Vector2 get_direction(Vector2 pos);
+    void isInRange(Ref<InputEventScreenTouch> touch);
+    void release();
+    void getSpriteback();
 };
 }
 
