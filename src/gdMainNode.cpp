@@ -7,21 +7,21 @@ void GDMainNode::_register_methods(){
     register_method("_init", &GDMainNode::_init);
     register_method("_is_dead", &GDMainNode::_is_dead);
     register_method("_start_game", &GDMainNode::_start_game);
+    register_method("move", &GDMainNode::move);
 
     register_signal<GDMainNode>((char *)"_defeat");
-
-}
-
-GDMainNode::GDMainNode(){
-
-}
-
-GDMainNode::~GDMainNode(){
-    
+    register_signal<GDMainNode>("move", "position", GODOT_VARIANT_TYPE_VECTOR2);
+    register_signal<GDMainNode,bool>("activatePlayer", "play", GODOT_VARIANT_TYPE_BOOL);
 }
 
 void GDMainNode::_ready(){\
     Godot::print("Main Ready...");
+    myControl = get_child_as<Control>("ControlLayout");
+    myControl->connect("start", this,"_start_game");
+    myControl->connect("move", this, "move");
+    myPlayer = get_child_as<KinematicBody2D>("PlayerBody2d");
+    connect("move",myPlayer,"input_mouse");
+    connect("activatePlayer",myPlayer, "_setEnabled");
     /* for(int i =0;i< 4; i++){
         create_enemy();
     }
@@ -52,13 +52,17 @@ void GDMainNode::create_enemy(){
 }
 void GDMainNode::_start_game(bool play){
     Godot::print("Play");
-    audio_defeat->stop();
-    audio->play();
+    //audio_defeat->stop();
+    //audio->play();
     _set_visibleAll(play);
-
+    myPlayer->set_visible(true);
+    emit_signal("activatePlayer", true);
 }
 void GDMainNode::_set_visibleAll(bool value){
     SceneTree *tree = get_tree();
     tree->call_group("KinetmaticBody2D", "set_visible", value);
     tree->call_group("KinetmaticBody2D", "_setEnabled", value);
+}
+void GDMainNode::move(Vector2 position){
+    emit_signal("move", position);
 }

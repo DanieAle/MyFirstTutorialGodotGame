@@ -7,6 +7,7 @@
 #include <InputEventScreenDrag.hpp>
 #include <ResourceLoader.hpp>
 #include <Texture.hpp>
+#include <Control.hpp>
 
 namespace godot{
 
@@ -14,14 +15,14 @@ class GDControllerTouch : public Sprite {
     GODOT_CLASS(GDControllerTouch, Sprite)
 private:
     bool button_release = false;
-    Node2D *base;
+    Control *base;
     Sprite *ring;
     String dirBaseTexture;
     String dirPressTexture;
     Ref<Texture> baseTexture;
     Ref<Texture> pressTexture;
     bool active = false;
-    float max_radius = 27.0;
+    float max_radius = 40.0;
     float_t lastpos = 0;
 public:
     static void _register_methods();

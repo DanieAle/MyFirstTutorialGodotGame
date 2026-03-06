@@ -17,23 +17,21 @@ void GDCollisionPlayer::_register_methods(){
         "value_rotation",GODOT_VARIANT_TYPE_INT,"animation", GODOT_VARIANT_TYPE_STRING);
 }
 
-GDCollisionPlayer::GDCollisionPlayer(){
-}
-GDCollisionPlayer::~GDCollisionPlayer(){
-
-}
 void GDCollisionPlayer::_ready(){
     Godot::print("Hola");
     set_physics_process(true);
-    set_refs(sprite);
+    Vector2 pos = get_viewport_rect().get_size();
+    set_position(pos / 2);
+    sprite = get_child_as<Sprite>("Sprite");
+    //set_refs(sprite);
     valid_obj_connect(sprite,"key_pressed","_is_movement");
     start_position = get_position();
     enabled = false;
     Node2D *nodeparent = Object::cast_to<Node2D>(get_parent());
-    Sprite *sprte_squeare = Object::cast_to<Sprite>(nodeparent->get_child(11));
-    sprite_mouse = Object::cast_to<Sprite>(sprte_squeare->get_child(0));
-    sprite_mouse->connect("move",this,"input_mouse");
-    sprite_mouse->connect("stop",this,"input_mouse_stop");
+    //Sprite *sprte_squeare = Object::cast_to<Sprite>(nodeparent->get_child(11));
+    //sprite_mouse = Object::cast_to<Sprite>(sprte_squeare->get_child(0));
+    //sprite_mouse->connect("move",this,"input_mouse");
+    //sprite_mouse->connect("stop",this,"input_mouse_stop");
 }
 void GDCollisionPlayer::_physics_process(float delta){
     //Godot::print("Fisicas ....");

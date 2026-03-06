@@ -30,8 +30,8 @@ private:
 public:
     static void _register_methods();
 
-    GDMainNode();
-    ~GDMainNode();
+    GDMainNode() = default;
+    ~GDMainNode() = default;
 
     void _ready();
     void _init();
@@ -41,6 +41,13 @@ public:
     void _start_game(bool play);
     void _set_visibleAll(bool value);
     void _defeat();
+    void move(Vector2 position);
+    void stop();
+
+    template<typename T>
+    T* get_child_as(NodePath nodeName){
+        return Object::cast_to<T>(get_node(nodeName));
+    }
 };
 
 }

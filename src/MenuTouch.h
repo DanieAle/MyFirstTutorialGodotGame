@@ -20,8 +20,8 @@ private:
 public:
     static void _register_methods();
 
-    GDMenuTouch();
-    ~GDMenuTouch();
+    GDMenuTouch() = default;
+    ~GDMenuTouch() = default;
 
     void _ready();
     void _init();

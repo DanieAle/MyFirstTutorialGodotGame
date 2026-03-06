@@ -9,22 +9,13 @@ void GDSprite::_register_methods() {
 
 
 }
-
-GDSprite::GDSprite() {
-}
-
-GDSprite::~GDSprite() {
-    // add your cleanup here
-}
-
 void GDSprite::_ready() {
     //sprite_animated = Object::cast_to<AnimatedSprite>(get_child(get_child_count()-1));
     // Realiza inicializaciones aquí.
-    set_refs();
+    //set_refs();
+    sprite_animated = get_child_as<AnimatedSprite>("AnimatedSpritePlayer");
 }
-void GDSprite::_init(){
-
-}
+void GDSprite::_init(){}
 void GDSprite::_is_movement(bool flip,int direcction,int value_rotation,String animation){
     sprite_animated->play(animation);
     sprite_animated->set_flip_h(false);

@@ -12,14 +12,6 @@ void GDMenuTouch::_register_methods(){
     register_signal<GDMenuTouch, bool>((char *)"_start", "play",GODOT_VARIANT_TYPE_BOOL);
 }
 
-GDMenuTouch::GDMenuTouch(){
-
-}
-
-GDMenuTouch::~GDMenuTouch(){
-    
-}
-
 void GDMenuTouch::_ready(){
     Godot::print("Menu Ready...");
     button = Object::cast_to<TouchScreenButton>(get_node("Button"));

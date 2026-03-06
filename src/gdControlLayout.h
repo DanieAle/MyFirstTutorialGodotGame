@@ -6,6 +6,7 @@
 #include <ColorRect.hpp>
 #include <Timer.hpp>
 #include <Label.hpp>
+#include <Sprite.hpp>
 
 namespace godot {
 
@@ -15,20 +16,22 @@ private:
 Rect2 size;
 ColorRect *background;
 Control *menu;
+Sprite *myStick;
 Label *contador;
 Timer *tContador;
 int lastTime = 0;
 public:
     static void _register_methods();
 
-    GDControlLayout();
-    ~GDControlLayout();
+    GDControlLayout() = default;
+    ~GDControlLayout() = default;
 
     void _ready();
     void _init();
     void _process(float delta);
     void initialize(bool play);
     void win();
+    void isMoving(Vector2 position);
 };
 
 }

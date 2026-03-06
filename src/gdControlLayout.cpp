@@ -7,10 +7,11 @@ void GDControlLayout::_register_methods(){
     register_method("_process", &GDControlLayout::_process);
     register_method("initialize", &GDControlLayout::initialize);
     register_method("win", &GDControlLayout::win);
+    register_method("isMoving", &GDControlLayout::isMoving);
 
+    register_signal<GDControlLayout, bool>((char *)"start", "play",GODOT_VARIANT_TYPE_BOOL);
+    register_signal<GDControlLayout>("move", "position", GODOT_VARIANT_TYPE_VECTOR2);
 }
-GDControlLayout::GDControlLayout(){}
-GDControlLayout::~GDControlLayout(){}
 
 void GDControlLayout::_init(){
 }
@@ -19,8 +20,10 @@ void GDControlLayout::_ready(){
     menu = Object::cast_to<Control>(get_node("Menu"));
     contador = Object::cast_to<Label>(get_node("Contador"));
     tContador = Object::cast_to<Timer>(get_node("TContador"));
+    myStick = Object::cast_to<Sprite>(get_node("Joypad")->get_node("Stick"));
     menu->connect("_start",this,"initialize");
     tContador->connect("timeout", this, "win");
+    myStick->connect("move",this,"isMoving");
     lastTime = int(tContador->get_time_left());
 }
 void GDControlLayout::_process(float delta){
@@ -35,7 +38,11 @@ void GDControlLayout::initialize(bool play){
     Godot::print("start contador");
     contador->set_visible(play);
     tContador->start();
+    emit_signal("start", play);
 }
 void GDControlLayout::win(){
     contador->set_text("0");
+}
+void GDControlLayout::isMoving(Vector2 pos){
+    emit_signal("move",pos);
 }

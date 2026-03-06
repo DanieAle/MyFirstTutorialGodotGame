@@ -25,8 +25,8 @@ private:
 public:
     static void _register_methods();
 
-    GDCollisionPlayer();
-    ~GDCollisionPlayer();
+    GDCollisionPlayer() = default;
+    ~GDCollisionPlayer() = default;
 
     void _ready();
     void _init();

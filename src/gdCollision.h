@@ -34,6 +34,10 @@ public:
     //New methods
     void set_refs(Sprite *&sprite);
     void valid_obj_connect(Sprite *&sprite, String name_signal, String name_method);
+    template<typename T>
+    T* get_child_as(NodePath nodeName){
+        return Object::cast_to<T>(get_node(nodeName));
+    }
 };
 }
 

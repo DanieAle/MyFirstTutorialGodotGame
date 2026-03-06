@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/menu/ControlLayout.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/player/PlayerBody2d.tscn" type="PackedScene" id=2]
 [ext_resource path="res://native/gdnative/NativeScriptGDMainNode.gdns" type="Script" id=3]
 [ext_resource path="res://assets/art/House In a Forest Loop.ogg" type="AudioStream" id=5]
 [ext_resource path="res://assets/art/gameover.wav" type="AudioStream" id=6]
@@ -29,6 +30,9 @@ margin_right = 420.0
 margin_bottom = 800.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="PlayerBody2d" parent="." instance=ExtResource( 2 )]
+visible = false
 
 [node name="Arriba" type="StaticBody2D" parent="."]
 collision_layer = 4
