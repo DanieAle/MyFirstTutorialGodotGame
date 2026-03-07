@@ -23,15 +23,9 @@ void GDCollisionPlayer::_ready(){
     Vector2 pos = get_viewport_rect().get_size();
     set_position(pos / 2);
     sprite = get_child_as<Sprite>("Sprite");
-    //set_refs(sprite);
     valid_obj_connect(sprite,"key_pressed","_is_movement");
     start_position = get_position();
     enabled = false;
-    Node2D *nodeparent = Object::cast_to<Node2D>(get_parent());
-    //Sprite *sprte_squeare = Object::cast_to<Sprite>(nodeparent->get_child(11));
-    //sprite_mouse = Object::cast_to<Sprite>(sprte_squeare->get_child(0));
-    //sprite_mouse->connect("move",this,"input_mouse");
-    //sprite_mouse->connect("stop",this,"input_mouse_stop");
 }
 void GDCollisionPlayer::_physics_process(float delta){
     //Godot::print("Fisicas ....");
@@ -47,8 +41,10 @@ void GDCollisionPlayer::_init(){
     key_v = 0;
 }
 void GDCollisionPlayer::_input(const Ref<InputEvent> event){
-    input_pc(event);
-    
+    if (event.is_valid() && event->is_class("InputEventKey")) {
+        key_event = event;
+        input_pc(key_event);
+    }
 }
 
 void GDCollisionPlayer::move(float delta){
@@ -63,73 +59,52 @@ void GDCollisionPlayer::_setEnabled(bool value){
     key_h = 0;
     key_v = 0;
 }
-void GDCollisionPlayer::isHorizontal(int num){
-    if(num == 65 || num == 68){
+void GDCollisionPlayer::isHorizontal(){
+    if(left_pressed || right_pressed){
         emit_signal("key_pressed", true,key_h,0,"walk");
     }
-    else if(num == 83 || num == 87){
+    else if(down_pressed || up_pressed){
         emit_signal("key_pressed", false,key_v,0,"up");
     }
 }
-void GDCollisionPlayer::myIsPressed(int key_code){
-    switch(key_code){
-                case 65:
-                    //Godot::print("Tecla 'A' presionada.");
-                    handleKeyH(false);
-                    break;
-                case 83:
-                    //Godot::print("Tecla 'S' presionada.");
-                    handleKeyY(true);
-                    break;
-                case 87:
-                    //Godot::print("Tecla 'W' presionada.");
-                    handleKeyY(false);
-                    break;
-                case 68:
-                    //Godot::print("Tecla 'D' presionada.");
-                    handleKeyH(true);
-                    break;
-            }
-}
-void GDCollisionPlayer::handleKeyH(bool rightOrLeft){
-    int left = -1;
-    int right = 1;
-
-    if(rightOrLeft){
-        key_h = right;
-    }
-    else{
-        key_h = left;
-    }
-}
-void GDCollisionPlayer::handleKeyY(bool rightOrLeft){
-    int left = -1;
-    int right = 1;
-    if(rightOrLeft){
-        key_v = right;
-    }
-    else{
-        key_v = left;
-    }
-}
-void GDCollisionPlayer::input_pc(const Ref<InputEvent> event){
-    if(enabled){
-        if (event.is_valid() && event->is_class("InputEventKey")) {
-            key_event = event;
-            if (key_event->is_pressed()) {
-            int key_code = key_event->get_scancode();
-            // Realiza acciones en función del código de tecla presionado
-            // Realiza acciones específicas para la tecla 'A'
-            myIsPressed(key_code);
-            isHorizontal(key_code);
-            }
-            else if(key_event->is_action_released("tl_h_liberada")){
-            key_h = 0;
-            }
-            else if(key_event->is_action_released("tl_v_liberada")){
-            key_v = 0;
-            }
+void GDCollisionPlayer::myIsPressed(int key_code, bool isPressed){
+    if(isPressed){
+        switch (key_code)
+        {
+        case 65: left_pressed = true; //A
+            break;
+        case 68: right_pressed = true; //D
+            break;
+        case 87: up_pressed = true; //W
+            break;
+        case 83: down_pressed = true; //S
+            break;
         }
+    }
+    else {
+        switch (key_code)
+        {
+        case 65: left_pressed = false; //A
+            break;
+        case 68: right_pressed = false; //D
+            break;
+        case 87: up_pressed = false; //W
+            break;
+        case 83: down_pressed = false; //S
+            break;
+        }
+    }
+}
+void GDCollisionPlayer::handleKey(){
+    key_h = right_pressed - left_pressed;
+    key_v = down_pressed - up_pressed;
+}
+void GDCollisionPlayer::input_pc(const Ref<InputEventKey> key_event){
+    if(enabled){
+        int key_code = key_event->get_scancode();
+        myIsPressed(key_code, key_event->is_pressed());
+        handleKey();
+        isHorizontal();
     }
 }
 void GDCollisionPlayer::input_mouse(Vector2 pos){

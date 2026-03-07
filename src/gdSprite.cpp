@@ -50,15 +50,3 @@ void GDSprite::rotation(int value){
         sprite_animated->set_rotation_degrees(value);
     }
 }
-void GDSprite::set_refs(){
-    int i = 0;
-    int child_count = get_child_count();
-    while (i < child_count) {
-        //Node *node = get_child(i);
-        if (get_child(i)->is_class("AnimatedSprite")) {
-            sprite_animated = Object::cast_to<AnimatedSprite>(get_child(i));
-            break;
-        }
-        i++;
-    }
-}

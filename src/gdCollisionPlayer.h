@@ -22,6 +22,10 @@ private:
     Sprite *sprite;
     Sprite *sprite_mouse;
     bool enabled;
+    bool left_pressed = false;
+    bool right_pressed = false;
+    bool up_pressed = false;
+    bool down_pressed = false;
 public:
     static void _register_methods();
 
@@ -35,11 +39,10 @@ public:
 
     void move(float delta);
     void _setEnabled(bool value);
-    void isHorizontal(int num);
-    void myIsPressed(int key_code);
-    void handleKeyH(bool rightOrLeft);
-    void handleKeyY(bool rightOrLeft);
-    void input_pc(const Ref<InputEvent> event);
+    void isHorizontal();
+    void myIsPressed(int key_code, bool isPressed);
+    void handleKey();
+    void input_pc(const Ref<InputEventKey> key_event);
     void input_mouse(Vector2 pos);
     void input_mouse_stop(String response);
   

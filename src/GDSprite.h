@@ -24,7 +24,6 @@ public:
     void flipHorizontal(int direcction);
     void flipVertical(int direcction);
     void rotation(int rot);
-    void set_refs();
     template<typename T>
     T* get_child_as(NodePath nodeName){
         return Object::cast_to<T>(get_node(nodeName));
