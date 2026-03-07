@@ -32,8 +32,8 @@ private:
 public:
     static void _register_methods();
 
-    GDCollisionEnemy();
-    ~GDCollisionEnemy();
+    GDCollisionEnemy() = default;
+    ~GDCollisionEnemy() = default;
 
     void _ready();
     void _init();

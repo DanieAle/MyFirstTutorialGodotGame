@@ -32,6 +32,7 @@ public:
     void initialize(bool play);
     void win();
     void isMoving(Vector2 position);
+    void reset();
 };
 
 }

@@ -16,8 +16,8 @@ private:
 public:
     static void _register_methods();
 
-    GDCollision();
-    ~GDCollision();
+    GDCollision() = default;
+    ~GDCollision() = default;
 
     //Defautl methods
     void _ready();
@@ -32,7 +32,6 @@ public:
     //Event methods
 
     //New methods
-    void set_refs(Sprite *&sprite);
     void valid_obj_connect(Sprite *&sprite, String name_signal, String name_method);
     template<typename T>
     T* get_child_as(NodePath nodeName){

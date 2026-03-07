@@ -10,11 +10,6 @@ void GDCollision::_register_methods(){
     //Registro de Signals
     register_signal<GDCollision, String>((char*)"collision","name",GODOT_VARIANT_TYPE_STRING);
 }
-GDCollision::GDCollision(){
-}
-GDCollision::~GDCollision(){
-
-}
 void GDCollision::_ready(){
     Godot::print("Ready....GDCollision");
 }
@@ -41,19 +36,6 @@ bool GDCollision::_getEnabled(){
 }
 
 //New methods
-void GDCollision::set_refs(Sprite *&sprite) {
-    int i = 0;
-    int child_count = get_child_count();
-    Godot::print(String::num(child_count));
-    while (i < child_count) {
-        //Node *node = get_child(i);
-        if (get_child(i)->is_class("Sprite")) {
-            sprite = Object::cast_to<Sprite>(get_child(i));
-            break;
-        }
-        i++;
-    }
-}
 void GDCollision::valid_obj_connect(Sprite *&sprite,String name_signal,String name_method){
     if(sprite){
         connect(name_signal, sprite,name_method);

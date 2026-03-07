@@ -15,18 +15,11 @@ void GDCollisionEnemy::_register_methods(){
     register_signal<GDCollisionEnemy, String>((char*)"collision","name",GODOT_VARIANT_TYPE_STRING);
 }
 
-GDCollisionEnemy::GDCollisionEnemy(){
-}
-GDCollisionEnemy::~GDCollisionEnemy(){
-
-}
 void GDCollisionEnemy::_ready(){
     Godot::print("Hola");
     set_physics_process(true);
-    set_refs(sprite);
+    sprite = get_child_as<Sprite>("Sprite");
     valid_obj_connect(sprite,"in_movement","_is_movement");
-    connect("collision",get_parent(), "_is_dead");
-    //_setEnabled(false);
     rec = get_viewport_rect();
     max_x = rec.size.x;
     max_y = rec.size.y;
@@ -51,11 +44,8 @@ void GDCollisionEnemy::_physics_process(float delta){
         move_and_collide(position);
         Ref<KinematicCollision2D> collision = move_and_collide(position);
         if(collision.is_valid()){
-        // Ahora puedes usar esta información según tus necesidades.
             String nombre = collision->get_collider()->get_class();
-        //Godot::print("Colisión con: " + nombre);
             emit_signal("collision",nombre);
-        // Por ejemplo, verifica el nombre del nodo con el que colisionó.
         }
         isOfScreen(get_position());
     }
@@ -67,27 +57,17 @@ void GDCollisionEnemy::_init(){
 }
 
 void GDCollisionEnemy::confgEnemy(){
-    int num = random(2);
-    int num2 = random(1);
-    int num3 = random(1);
-    int num4 = random(3);
-    _set_speed(velocidades[num4]);
-    animation_selected = animations[num];
-    direccion = direcciones1[num2];
-    isHorizontal = direcciones2[num3];
+    int animation = random(2);
+    int direction = random(1);
+    int sense = random(1);
+    int velocity = random(3);
+    _set_speed(velocidades[velocity]);
+    animation_selected = animations[animation];
+    direccion = direcciones1[direction];
+    isHorizontal = direcciones2[sense];
 
     HowWillMove();
-    /*Godot::print("Posicion x:");
-    Godot::print(String::num(pos_inicial_x));
-    Godot::print("Posicion y:");
-    Godot::print(String::num(pos_inicial_y));
-    Godot::print("Horizontal:");
-    String prueba = isHorizontal ? "true" : "false";
-    Godot::print(prueba);
-    Godot::print("Direccion:");
-    Godot::print(String::num(direccion));*/
     set_position(Vector2(pos_inicial_x,pos_inicial_y));
-    //sprite_animated->play(animation_selected);
 }
 int GDCollisionEnemy::new_pos_Inicial(int direccion,int min, int max,int limit){
     int minimo = min;
@@ -102,7 +82,6 @@ int GDCollisionEnemy::new_pos_Inicial(int direccion,int min, int max,int limit){
         case -1:
             int new_max = (limit/2) + limit;
             int new_min = limit + max;
-            //Godot::print(String::num(new_min));
             pos = new_min - (std::rand() % (new_max - new_min + 1));
             break;
         }
@@ -111,13 +90,13 @@ int GDCollisionEnemy::new_pos_Inicial(int direccion,int min, int max,int limit){
 void GDCollisionEnemy::HowWillMove(){
     rotation = 0;
     if(isHorizontal){
-        pos_inicial_x = new_pos_Inicial(direccion,60, 100,rec.size.x);
-        pos_inicial_y = 10 + (std::rand() % (550 - 10 + 1));
+        pos_inicial_x = new_pos_Inicial(direccion,100, 120,rec.size.x);
+        pos_inicial_y = 10 + (std::rand() % (max_y - 10 + 1));
         emit_signal("in_movement",isHorizontal,direccion,rotation,animation_selected);
     }
     else{
-        pos_inicial_y = new_pos_Inicial(direccion,60,100,rec.size.y);
-        pos_inicial_x = 10 + (std::rand() % (400 - 10 + 1));
+        pos_inicial_y = new_pos_Inicial(direccion,100,120,rec.size.y);
+        pos_inicial_x = 10 + (std::rand() % (max_x - 10 + 1));
         if(direccion < 0){
             rotation = -90;
         }

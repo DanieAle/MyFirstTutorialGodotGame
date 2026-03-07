@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/menu/ControlLayout.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/player/PlayerBody2d.tscn" type="PackedScene" id=2]
 [ext_resource path="res://native/gdnative/NativeScriptGDMainNode.gdns" type="Script" id=3]
+[ext_resource path="res://native/gdnative/GDBorder.gdns" type="Script" id=4]
 [ext_resource path="res://assets/art/House In a Forest Loop.ogg" type="AudioStream" id=5]
 [ext_resource path="res://assets/art/gameover.wav" type="AudioStream" id=6]
 
@@ -24,6 +25,7 @@ b = Vector2( 0, 0 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
+N.Enemy = 10
 
 [node name="ControlLayout" parent="." instance=ExtResource( 1 )]
 margin_right = 420.0
@@ -37,6 +39,8 @@ visible = false
 [node name="Arriba" type="StaticBody2D" parent="."]
 collision_layer = 4
 collision_mask = 0
+script = ExtResource( 4 )
+Zone = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Arriba"]
 position = Vector2( 1, 0 )
@@ -46,6 +50,8 @@ shape = SubResource( 1 )
 position = Vector2( 0, 600 )
 collision_layer = 4
 collision_mask = 0
+script = ExtResource( 4 )
+Zone = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Abajo"]
 position = Vector2( -5, 0 )
@@ -54,6 +60,8 @@ shape = SubResource( 2 )
 [node name="Izquierda" type="StaticBody2D" parent="."]
 collision_layer = 4
 collision_mask = 0
+script = ExtResource( 4 )
+Zone = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Izquierda"]
 position = Vector2( 417, 0 )
@@ -62,6 +70,8 @@ shape = SubResource( 3 )
 [node name="Derecha" type="StaticBody2D" parent="."]
 collision_layer = 4
 collision_mask = 0
+script = ExtResource( 4 )
+Zone = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Derecha"]
 position = Vector2( -1, 0 )
@@ -72,5 +82,3 @@ stream = ExtResource( 5 )
 
 [node name="Defeat" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
-
-[node name="Music" type="AudioStreamPlayer" parent="."]

@@ -38,5 +38,6 @@ void GDMenuTouch::_time_end(){
 }
 void GDMenuTouch::_restart(){
     myLabel->set_text(myTitles[0]);
+    myLabel->set_visible(true);
     button->set_visible(true);
 }

@@ -42,6 +42,7 @@ public:
     void isHorizontal();
     void myIsPressed(int key_code, bool isPressed);
     void handleKey();
+    void initStateKeys();
     void input_pc(const Ref<InputEventKey> key_event);
     void input_mouse(Vector2 pos);
     void input_mouse_stop(String response);

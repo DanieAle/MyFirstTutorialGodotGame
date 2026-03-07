@@ -12,6 +12,8 @@ void GDMainNode::_register_methods(){
     register_signal<GDMainNode>((char *)"_defeat");
     register_signal<GDMainNode>("move", "position", GODOT_VARIANT_TYPE_VECTOR2);
     register_signal<GDMainNode,bool>("activatePlayer", "play", GODOT_VARIANT_TYPE_BOOL);
+
+    register_property<GDMainNode,int>("N.Enemy",&GDMainNode::num_enemy, 1);
 }
 
 void GDMainNode::_ready(){\
@@ -19,16 +21,15 @@ void GDMainNode::_ready(){\
     myControl = get_child_as<Control>("ControlLayout");
     myControl->connect("start", this,"_start_game");
     myControl->connect("move", this, "move");
+    connect("_defeat", myControl,"reset");
     myPlayer = get_child_as<KinematicBody2D>("PlayerBody2d");
+    audio = get_child_as<AudioStreamPlayer>("Background");
+    audio_defeat = get_child_as<AudioStreamPlayer>("Defeat");
     connect("move",myPlayer,"input_mouse");
     connect("activatePlayer",myPlayer, "_setEnabled");
-    /* for(int i =0;i< 4; i++){
+    for(int i =0;i< num_enemy; i++){
         create_enemy();
     }
-    myControl = Object::cast_to<Control>(get_child(8));
-    if(myControl){
-        myControl->connect("_start",this,"_start_game");
-    }*/
 }
 void GDMainNode::_init(){
     Godot::print("Main Init...");
@@ -42,18 +43,23 @@ void GDMainNode::_is_dead(String name){
         audio->stop();
         audio_defeat->play();
     }
+    emit_signal("activatePlayer",false);
+    emit_signal("_defeat");
+    myPlayer->set_visible(false);
 }
 void GDMainNode::create_enemy(){
     Ref<PackedScene> enemy_scene = ResourceLoader::get_singleton()->load("res://scenes/enemy/EnemyBody2d.tscn");
 
     Node2D *enemy_instance = Object::cast_to<Node2D>(enemy_scene->instance());
+    enemy_instance->set_visible(false);
+    enemy_instance->connect("collision",this, "_is_dead");
     enemy_instance->add_to_group("KinetmaticBody2D");
     add_child(enemy_instance);
 }
 void GDMainNode::_start_game(bool play){
     Godot::print("Play");
-    //audio_defeat->stop();
-    //audio->play();
+    audio_defeat->stop();
+    audio->play();
     _set_visibleAll(play);
     myPlayer->set_visible(true);
     emit_signal("activatePlayer", true);

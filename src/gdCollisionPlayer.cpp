@@ -58,6 +58,8 @@ void GDCollisionPlayer::_setEnabled(bool value){
     set_position(start_position);
     key_h = 0;
     key_v = 0;
+    initStateKeys();
+    emit_signal("key_pressed", true,0,0,"walk");
 }
 void GDCollisionPlayer::isHorizontal(){
     if(left_pressed || right_pressed){
@@ -106,6 +108,12 @@ void GDCollisionPlayer::input_pc(const Ref<InputEventKey> key_event){
         handleKey();
         isHorizontal();
     }
+}
+void GDCollisionPlayer::initStateKeys(){
+    left_pressed = false;
+    right_pressed = false;
+    up_pressed = false;
+    down_pressed = false;
 }
 void GDCollisionPlayer::input_mouse(Vector2 pos){
     key_h = pos.x;

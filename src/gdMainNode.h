@@ -27,6 +27,7 @@ private:
     AudioStreamPlayer *audio_defeat;
     ColorRect *rect;
     Control *layout;
+    int num_enemy;
 public:
     static void _register_methods();
 
