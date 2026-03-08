@@ -48,7 +48,6 @@ void GDControllerTouch::_input(Ref<InputEvent> event){
             }
             if(event->is_class("InputEventScreenDrag")){
             Ref<InputEventScreenDrag> drag = event;
-            Godot::print(drag->get_position());
                 if(active && drag->get_index() == touch_index){
                     dragTouch = drag;
                 }
