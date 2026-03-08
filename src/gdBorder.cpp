@@ -13,7 +13,6 @@ GODOT_METHOD_RPC_MODE_DISABLED, GODOT_PROPERTY_USAGE_DEFAULT, GODOT_PROPERTY_HIN
     register_property<GDBorder,String>("name", &GDBorder::name1 , "n");
 }
 void GDBorder::_init(){
-    Godot::print("Border");
 }
 void GDBorder::_ready(){
     call_deferred("setup");
@@ -61,6 +60,5 @@ void GDBorder::setup(){
 }
 bool GDBorder::checkOS(){
     String os = OS::get_singleton()->get_name();
-    Godot::print(os);
     return os == "Android";
 }

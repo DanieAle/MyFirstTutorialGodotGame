@@ -10,9 +10,6 @@ void GDSprite::_register_methods() {
 
 }
 void GDSprite::_ready() {
-    //sprite_animated = Object::cast_to<AnimatedSprite>(get_child(get_child_count()-1));
-    // Realiza inicializaciones aquí.
-    //set_refs();
     sprite_animated = get_child_as<AnimatedSprite>("AnimatedSprite");
 }
 void GDSprite::_init(){}

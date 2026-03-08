@@ -4,7 +4,6 @@
 #include <Godot.hpp>
 #include <Sprite.hpp>
 #include <InputEventScreenTouch.hpp>
-#include <InputEventScreenDrag.hpp>
 #include <ResourceLoader.hpp>
 #include <Texture.hpp>
 #include <Control.hpp>

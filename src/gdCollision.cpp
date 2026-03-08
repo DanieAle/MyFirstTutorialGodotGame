@@ -11,10 +11,8 @@ void GDCollision::_register_methods(){
     register_signal<GDCollision, String>((char*)"collision","name",GODOT_VARIANT_TYPE_STRING);
 }
 void GDCollision::_ready(){
-    Godot::print("Ready....GDCollision");
 }
 void GDCollision::_init(){
-    
 }
 //SET
 void GDCollision::_set_speed(int value){

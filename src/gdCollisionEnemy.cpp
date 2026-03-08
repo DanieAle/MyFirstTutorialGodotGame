@@ -16,7 +16,6 @@ void GDCollisionEnemy::_register_methods(){
 }
 
 void GDCollisionEnemy::_ready(){
-    Godot::print("Hola");
     set_physics_process(true);
     sprite = get_child_as<Sprite>("Sprite");
     valid_obj_connect(sprite,"in_movement","_is_movement");
@@ -29,7 +28,6 @@ void GDCollisionEnemy::_ready(){
     enabled = false;
 }
 void GDCollisionEnemy::_physics_process(float delta){
-    //Godot::print("Fisicas ....");
     if(enabled){
         float speed = _get_speed();
         Vector2 movement;
@@ -51,7 +49,6 @@ void GDCollisionEnemy::_physics_process(float delta){
     }
 }
 void GDCollisionEnemy::_init(){
-    Godot::print("Init ....");
     _set_time_passed(0.0);
     _set_speed(50);
 }

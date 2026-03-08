@@ -22,18 +22,13 @@ void GDControlLayout::_init(){
 }
 void GDControlLayout::_ready(){
     set_size(get_viewport_rect().get_size());
-    menu = Object::cast_to<Control>(get_node("Menu"));
-    contador = Object::cast_to<Label>(get_node("Contador"));
-    tContador = Object::cast_to<Timer>(get_node("TContador"));
-    Control *joypad = Object::cast_to<Control>(get_node("Joypad"));
+    set_childs();
+    Control *joypad = get_child_as<Control>("Joypad");
+    myStick = Object::cast_to<Sprite>(joypad->get_node("Stick"));
     if(!checkOS()){
         joypad->set_visible(false);
     }
-    myStick = Object::cast_to<Sprite>(joypad->get_node("Stick"));
-    menu->connect("_start",this,"startAll");
-    connect("reset", menu, "_restart");
-    tContador->connect("timeout", this, "win");
-    myStick->connect("move",this,"isMoving");
+    set_conections();
     lastTime = int(tContador->get_time_left());
 }
 void GDControlLayout::_process(float delta){
@@ -45,13 +40,23 @@ void GDControlLayout::_process(float delta){
    lastTime = time;
    }
 }
+void GDControlLayout::set_childs(){
+    menu = get_child_as<Control>("Menu");
+    contador = get_child_as<Label>("Contador");
+    tContador = get_child_as<Timer>("TContador");
+}
+void GDControlLayout::set_conections(){
+    menu->connect("_start",this,"startAll");
+    connect("reset", menu, "_restart");
+    tContador->connect("timeout", this, "win");
+    myStick->connect("move",this,"isMoving");
+}
 bool GDControlLayout::checkOS(){
     String os = OS::get_singleton()->get_name();
 
     return os == "Android";
 }
 void GDControlLayout::initialize(){
-    Godot::print("start contador");
     contador->set_visible(true);
     tContador->start();
 }
@@ -71,7 +76,6 @@ void GDControlLayout::reset(){
     emit_signal("reset");
 }
 void GDControlLayout::levelpass(int time){
-    Godot::print(String::num(time));
     if(time == 15){
         emit_signal("inc_dificulty",5);
     }

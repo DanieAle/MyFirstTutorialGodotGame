@@ -13,7 +13,6 @@ void GDMenuTouch::_register_methods(){
 }
 
 void GDMenuTouch::_ready(){
-    Godot::print("Menu Ready...");
     button = Object::cast_to<TouchScreenButton>(get_node("Button"));
     button->connect("released",this,"_button_down");
     myLabel = Object::cast_to<Label>(get_node("Titulo"));
@@ -21,19 +20,15 @@ void GDMenuTouch::_ready(){
     myTimer->connect("timeout", this, "_time_end");
 }
 void GDMenuTouch::_init(){
-    Godot::print("Menu Init...");
 }
 
 void GDMenuTouch::_button_down(){
-    Godot::print("Presionado");
     myLabel->set_text(myTitles[1]);
     button->set_visible(false);
     myTimer->start();
 }
 void GDMenuTouch::_time_end(){
     myLabel->set_visible(false);
-    
-    Godot::print("Timer end");
     emit_signal("_start", true);
 }
 void GDMenuTouch::_restart(){

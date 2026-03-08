@@ -3,8 +3,6 @@
 #include "GDSprite.h"
 #include "gdCollisionEnemy.h"
 #include "gdMainNode.h"
-#include "gdMenu.h"
-#include "gdController1.h"
 #include "gdControllertouch.h"
 #include "MenuTouch.h"
 #include "gdControlLayout.h"
@@ -25,8 +23,6 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
     godot::register_class<godot::GDSprite>();
     godot::register_class<godot::GDCollisionEnemy>();
     godot::register_class<godot::GDMainNode>();
-    godot::register_class<godot::GDMenu>();
-    godot::register_class<godot::GDController>();
     godot::register_class<godot::GDControllerTouch>();
     godot::register_class<godot::GDMenuTouch>();
     godot::register_class<godot::GDControlLayout>();

@@ -21,35 +21,40 @@ void GDMainNode::_register_methods(){
 }
 
 void GDMainNode::_ready(){\
-    Godot::print("Main Ready...");
-    enemy_scene = ResourceLoader::get_singleton()->load("res://scenes/enemy/EnemyBody2d.tscn");
-    time = get_child_as<Timer>("Timer");
-    time->connect("timeout",this, "_start_game");
-    myControl = get_child_as<Control>("ControlLayout");
-    myControl->connect("start", this,"_set_initGame");
-    myControl->connect("move", this, "move");
-    myControl->connect("inc_dificulty", this ,"set_enemy_active");
-    connect("initMenu",myControl,"initialize");
-    connect("_defeat", myControl,"reset");
-    myPlayer = get_child_as<KinematicBody2D>("PlayerBody2d");
-    Godot::print("mask");
-    Godot::print(String::num(myPlayer->get_collision_mask()));
-    myPlayer->set_collision_mask(0);
-    audio = get_child_as<AudioStreamPlayer>("Background");
-    audio_defeat = get_child_as<AudioStreamPlayer>("Defeat");
-    connect("move",myPlayer,"input_mouse");
-    connect("activatePlayer",myPlayer, "_setEnabled");
-    if(num_enemy < 27) num_enemy =27;
-    create_enemy(num_enemy);
     active_enemy = 5;
+
+    set_childs();
+    set_conections();
+
+    myPlayer->set_collision_mask(0);
+
+    if(num_enemy < 27) num_enemy =27;
+
+    create_enemy(num_enemy);
     set_enemy_active(0);
 }
 void GDMainNode::_init(){
-    Godot::print("Main Init...");
 }
+void GDMainNode::set_childs(){
+    enemy_scene = ResourceLoader::get_singleton()->load("res://scenes/enemy/EnemyBody2d.tscn");
+    myControl = get_child_as<Control>("ControlLayout");
+    time = get_child_as<Timer>("Timer");
+    myPlayer = get_child_as<KinematicBody2D>("PlayerBody2d");
+    audio = get_child_as<AudioStreamPlayer>("Background");
+    audio_defeat = get_child_as<AudioStreamPlayer>("Defeat");
+}
+void GDMainNode::set_conections(){
+    connect("initMenu",myControl,"initialize");
+    connect("_defeat", myControl,"reset");
+    connect("move",myPlayer,"input_mouse");
+    connect("activatePlayer",myPlayer, "_setEnabled");
 
+    time->connect("timeout",this, "_start_game");
+    myControl->connect("start", this,"_set_initGame");
+    myControl->connect("move", this, "move");
+    myControl->connect("inc_dificulty", this ,"set_enemy_active");
+}
 void GDMainNode::_is_dead(String name){
-    Godot::print(name);
     if(name == "KinematicBody2D"){
         _set_disableAll();
         emit_signal("_defeat");
@@ -75,12 +80,9 @@ void GDMainNode::create_enemy(int num){
 
 }
 void GDMainNode::_start_game(bool play){
-    Godot::print("Play");
     time->stop();
     emit_signal("initMenu");
     myPlayer->set_collision_mask(1 << 0 | 1 << 2);
-    Godot::print("mask");
-    Godot::print(String::num(myPlayer->get_collision_mask()));
     audio_defeat->stop();
     audio->play();
     set_enemy_active(0);

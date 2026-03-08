@@ -18,7 +18,6 @@ void GDCollisionPlayer::_register_methods(){
 }
 
 void GDCollisionPlayer::_ready(){
-    Godot::print("Hola");
     set_physics_process(true);
     Vector2 pos = get_viewport_rect().get_size();
     set_position(pos / 2);
@@ -28,13 +27,11 @@ void GDCollisionPlayer::_ready(){
     enabled = false;
 }
 void GDCollisionPlayer::_physics_process(float delta){
-    //Godot::print("Fisicas ....");
     if(enabled){
         move(delta);
     }
 }
 void GDCollisionPlayer::_init(){
-    Godot::print("Init ....");
     _set_time_passed(0.0);
     _set_speed(200);
     key_h = 0;

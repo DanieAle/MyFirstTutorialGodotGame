@@ -29,6 +29,8 @@ public:
     void _ready();
     void _init();
     void _process(float delta);
+    void set_childs();
+    void set_conections();
     bool checkOS();
     void initialize();
     void win();
@@ -36,6 +38,11 @@ public:
     void isMoving(Vector2 position);
     void reset();
     void levelpass(int time);
+
+    template<typename T>
+    T* get_child_as(NodePath nodeName){
+        return Object::cast_to<T>(get_node(nodeName));
+    }
 };
 
 }

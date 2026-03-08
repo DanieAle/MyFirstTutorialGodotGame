@@ -20,7 +20,6 @@ private:
     int key_v;
     Ref<InputEventKey> key_event;
     Sprite *sprite;
-    Sprite *sprite_mouse;
     bool enabled;
     bool left_pressed = false;
     bool right_pressed = false;

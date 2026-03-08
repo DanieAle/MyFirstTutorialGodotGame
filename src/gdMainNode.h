@@ -6,12 +6,8 @@
 #include <PackedScene.hpp>
 #include <ResourceLoader.hpp>
 #include <KinematicBody2D.hpp>
-#include <Camera2D.hpp>
-#include <Viewport.hpp>
 #include <Control.hpp>
-#include <SceneTree.hpp>
 #include <AudioStreamPlayer.hpp>
-#include <ColorRect.hpp>
 #include <Timer.hpp>
 namespace godot {
 class GDMainNode : public Node2D {
@@ -20,13 +16,10 @@ private:
     Ref<PackedScene> enemy_scene;
     Timer *time;
     Control *menu;
-    Viewport *view;
     Control *myControl;
     KinematicBody2D *myPlayer;
     AudioStreamPlayer *audio;
     AudioStreamPlayer *audio_defeat;
-    ColorRect *rect;
-    Control *layout;
     int num_enemy;
     Array enemys;
     int active_enemy = 5;
@@ -39,7 +32,8 @@ public:
 
     void _ready();
     void _init();
-    
+    void set_childs();
+    void set_conections();
     void _is_dead(String name);
     void create_enemy(int num);
     void _start_game(bool play);

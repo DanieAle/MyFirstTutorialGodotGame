@@ -18,7 +18,6 @@ GODOT_METHOD_RPC_MODE_DISABLED,GODOT_PROPERTY_USAGE_DEFAULT,GODOT_PROPERTY_HINT_
 GODOT_METHOD_RPC_MODE_DISABLED,GODOT_PROPERTY_USAGE_DEFAULT,GODOT_PROPERTY_HINT_RESOURCE_TYPE,"Texture");
 }
 void GDControllerTouch::_ready(){
-    Godot::print("Ready....GDControllerTouch");
     Vector2 tope = Vector2(30,30);
     base = Object::cast_to<Control>(get_parent());
     ring = Object::cast_to<Sprite>(base->get_node("Ring"));
@@ -50,7 +49,6 @@ void GDControllerTouch::_input(Ref<InputEvent> event){
 
 bool GDControllerTouch::checkOS(){
     String os = OS::get_singleton()->get_name();
-    Godot::print(os);
     return os == "Android";
 }
 
