@@ -8,6 +8,7 @@ void GDMenuTouch::_register_methods(){
     register_method("_button_down", &GDMenuTouch::_button_down);
     register_method("_time_end", &GDMenuTouch::_time_end);
     register_method("_restart", &GDMenuTouch::_restart);
+    register_method("win", &GDMenuTouch::win);
     
     register_signal<GDMenuTouch, bool>((char *)"_start", "play",GODOT_VARIANT_TYPE_BOOL);
 }
@@ -35,4 +36,7 @@ void GDMenuTouch::_restart(){
     myLabel->set_text(myTitles[0]);
     myLabel->set_visible(true);
     button->set_visible(true);
+}
+void GDMenuTouch::win(){
+    myLabel->set_text("Winner!");
 }

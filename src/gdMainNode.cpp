@@ -2,7 +2,6 @@
 #include "iostream"
 using namespace godot;
 
-//enemy GDMainNode::enemys;
 void GDMainNode::_register_methods(){
     register_method("_ready", &GDMainNode::_ready);
     register_method("_init", &GDMainNode::_init);
@@ -11,6 +10,7 @@ void GDMainNode::_register_methods(){
     register_method("move", &GDMainNode::move);
     register_method("set_enemy_active", &GDMainNode::set_enemy_active);
     register_method("_set_initGame", &GDMainNode::_set_initGame);
+    register_method("win", &GDMainNode::win);
 
     register_signal<GDMainNode>((char *)"_defeat");
     register_signal<GDMainNode>("move", "position", GODOT_VARIANT_TYPE_VECTOR2);
@@ -42,6 +42,7 @@ void GDMainNode::set_childs(){
     myPlayer = get_child_as<KinematicBody2D>("PlayerBody2d");
     audio = get_child_as<AudioStreamPlayer>("Background");
     audio_defeat = get_child_as<AudioStreamPlayer>("Defeat");
+    audio_win = get_child_as<AudioStreamPlayer>("win");
 }
 void GDMainNode::set_conections(){
     connect("initMenu",myControl,"initialize");
@@ -53,6 +54,9 @@ void GDMainNode::set_conections(){
     myControl->connect("start", this,"_set_initGame");
     myControl->connect("move", this, "move");
     myControl->connect("inc_dificulty", this ,"set_enemy_active");
+    myControl->connect("win",this,"win");
+
+    audio_win->connect("finished",this, "_is_dead");
 }
 void GDMainNode::_is_dead(String name){
     if(name == "KinematicBody2D"){
@@ -111,4 +115,12 @@ void GDMainNode::set_enemy_active(int add){
         enemy->set_visible(true);
         enemy->call("_setEnabled", true);
     }
+}
+void GDMainNode::win(){
+    audio->stop();
+    audio_win->play();
+    _set_disableAll();
+    myPlayer->set_visible(false);
+    myPlayer->set_collision_mask(0);
+    active_enemy = 5;
 }

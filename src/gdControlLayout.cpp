@@ -16,6 +16,7 @@ void GDControlLayout::_register_methods(){
     register_signal<GDControlLayout>("move", "position", GODOT_VARIANT_TYPE_VECTOR2);
     register_signal<GDControlLayout>("reset");
     register_signal<GDControlLayout>("inc_dificulty","number",GODOT_VARIANT_TYPE_INT);
+    register_signal<GDControlLayout>("win");
 }
 
 void GDControlLayout::_init(){
@@ -48,6 +49,7 @@ void GDControlLayout::set_childs(){
 void GDControlLayout::set_conections(){
     menu->connect("_start",this,"startAll");
     connect("reset", menu, "_restart");
+    connect("win", menu, "win");
     tContador->connect("timeout", this, "win");
     myStick->connect("move",this,"isMoving");
 }
@@ -61,7 +63,8 @@ void GDControlLayout::initialize(){
     tContador->start();
 }
 void GDControlLayout::win(){
-    contador->set_text("0");
+    reset();
+    emit_signal("win");
 }
 void GDControlLayout::startAll(){
     emit_signal("start", true);
@@ -70,7 +73,7 @@ void GDControlLayout::isMoving(Vector2 pos){
     emit_signal("move",pos);
 }
 void GDControlLayout::reset(){
-    win();
+    contador->set_text("0");
     tContador->stop();
     contador->set_visible(false);
     emit_signal("reset");

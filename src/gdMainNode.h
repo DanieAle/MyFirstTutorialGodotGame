@@ -20,6 +20,7 @@ private:
     KinematicBody2D *myPlayer;
     AudioStreamPlayer *audio;
     AudioStreamPlayer *audio_defeat;
+    AudioStreamPlayer *audio_win;
     int num_enemy;
     Array enemys;
     int active_enemy = 5;
@@ -41,7 +42,7 @@ public:
     void _set_initGame();
     void move(Vector2 position);
     void set_enemy_active(int active_enemy);
-
+    void win();
     template<typename T>
     T* get_child_as(NodePath nodeName){
         return Object::cast_to<T>(get_node(nodeName));

@@ -30,6 +30,7 @@ public:
     void _button_down();
     void _time_end();
     void _restart();
+    void win();
 };
 
 }
