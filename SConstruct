@@ -5,7 +5,10 @@ from SCons.Script import *
 
 opts = Variables([],ARGUMENTS)
 gxx_path = shutil.which("g++")
-mingw_bin = os.path.dirname(gxx_path)
+if gxx_path:
+    mingw_bin = os.path.dirname(gxx_path)
+else:
+    print("No se encontró g++ en PATH")
 #options
 opts.Add(EnumVariable(
     "platform",
@@ -156,7 +159,6 @@ library_name = "libgdMyMain"
 if env["platform"] == "windows":
     env["target_path"] += 'win64/'
     suffix = ".dll"
-    print(mingw_bin)
     env.Install(env["target_path"], os.path.join(mingw_bin, "libwinpthread-1.dll"))
     env.Install("MyDodge/build/win64/", os.path.join(mingw_bin, "libwinpthread-1.dll"))
 elif env["platform"] == "linux":
