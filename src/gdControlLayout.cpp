@@ -25,7 +25,11 @@ void GDControlLayout::_ready(){
     menu = Object::cast_to<Control>(get_node("Menu"));
     contador = Object::cast_to<Label>(get_node("Contador"));
     tContador = Object::cast_to<Timer>(get_node("TContador"));
-    myStick = Object::cast_to<Sprite>(get_node("Joypad")->get_node("Stick"));
+    Control *joypad = Object::cast_to<Control>(get_node("Joypad"));
+    if(!checkOS()){
+        joypad->set_visible(false);
+    }
+    myStick = Object::cast_to<Sprite>(joypad->get_node("Stick"));
     menu->connect("_start",this,"startAll");
     connect("reset", menu, "_restart");
     tContador->connect("timeout", this, "win");
@@ -40,6 +44,11 @@ void GDControlLayout::_process(float delta){
    contador->set_text(String::num(segundos));
    lastTime = time;
    }
+}
+bool GDControlLayout::checkOS(){
+    String os = OS::get_singleton()->get_name();
+
+    return os == "Android";
 }
 void GDControlLayout::initialize(){
     Godot::print("start contador");

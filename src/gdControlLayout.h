@@ -7,7 +7,7 @@
 #include <Timer.hpp>
 #include <Label.hpp>
 #include <Sprite.hpp>
-
+#include <OS.hpp>
 namespace godot {
 
 class GDControlLayout : public Control {
@@ -29,6 +29,7 @@ public:
     void _ready();
     void _init();
     void _process(float delta);
+    bool checkOS();
     void initialize();
     void win();
     void startAll();

@@ -6,6 +6,7 @@
 #include <CollisionShape2D.hpp>
 #include <SegmentShape2D.hpp>
 #include <Sprite.hpp>
+#include <OS.hpp>
 
 namespace godot{
 
@@ -28,8 +29,8 @@ public:
     //Defautl methods
     void _ready();
     void _init();
-
     void setup();
+    bool checkOS();
 
     //New methods
     void valid_obj_connect(Sprite *&sprite, String name_signal, String name_method);

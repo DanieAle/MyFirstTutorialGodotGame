@@ -8,6 +8,7 @@
 #include <ResourceLoader.hpp>
 #include <Texture.hpp>
 #include <Control.hpp>
+#include <OS.hpp>
 
 namespace godot{
 
@@ -24,6 +25,7 @@ private:
     bool active = false;
     float max_radius = 40.0;
     float_t lastpos = 0;
+    bool android = false;
 public:
     static void _register_methods();
 
@@ -38,6 +40,7 @@ public:
     //Event methods
 
     //New methods
+    bool checkOS();
     int Operation(int value);
     void send_signal();
     void move();

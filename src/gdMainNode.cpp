@@ -32,6 +32,8 @@ void GDMainNode::_ready(){\
     connect("initMenu",myControl,"initialize");
     connect("_defeat", myControl,"reset");
     myPlayer = get_child_as<KinematicBody2D>("PlayerBody2d");
+    Godot::print("mask");
+    Godot::print(String::num(myPlayer->get_collision_mask()));
     myPlayer->set_collision_mask(0);
     audio = get_child_as<AudioStreamPlayer>("Background");
     audio_defeat = get_child_as<AudioStreamPlayer>("Defeat");
@@ -76,7 +78,9 @@ void GDMainNode::_start_game(bool play){
     Godot::print("Play");
     time->stop();
     emit_signal("initMenu");
-    myPlayer->set_collision_mask(1);
+    myPlayer->set_collision_mask(1 << 0 | 1 << 2);
+    Godot::print("mask");
+    Godot::print(String::num(myPlayer->get_collision_mask()));
     audio_defeat->stop();
     audio->play();
     set_enemy_active(0);

@@ -22,6 +22,7 @@ void GDControllerTouch::_ready(){
     Vector2 tope = Vector2(30,30);
     base = Object::cast_to<Control>(get_parent());
     ring = Object::cast_to<Sprite>(base->get_node("Ring"));
+    android = checkOS();
 }
 void GDControllerTouch::_init(){}
 void GDControllerTouch::_process(float delta){
@@ -33,6 +34,7 @@ void GDControllerTouch::_process(float delta){
     }
 }
 void GDControllerTouch::_input(Ref<InputEvent> event){
+    if(android){
     if (event.is_valid() && event->is_class("InputEventScreenTouch")) {
         //toque en la pantalla
         Ref<InputEventScreenTouch> touch = event;
@@ -43,6 +45,13 @@ void GDControllerTouch::_input(Ref<InputEvent> event){
             release();
         }
     }
+}
+}
+
+bool GDControllerTouch::checkOS(){
+    String os = OS::get_singleton()->get_name();
+    Godot::print(os);
+    return os == "Android";
 }
 
 int GDControllerTouch::Operation(int value){

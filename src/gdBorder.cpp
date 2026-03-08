@@ -26,7 +26,14 @@ void GDBorder::setup(){
     Vector2 size = get_viewport_rect().get_size();
     Vector2 vertical = Vector2(size.x,0);
     Vector2 Horizontal = Vector2(0,size.y);
-    int y = size.y * 0.27;
+
+    int y = 0;
+    
+    if(checkOS()){
+        y = size.y - (size.y * 0.27);
+    }
+    else y = size.y;
+
     switch (Zone(zone))
     {
     case Zone::TOP:
@@ -34,7 +41,7 @@ void GDBorder::setup(){
         myShape->set_a(vertical);
         break;
     case Zone::BUTTON:
-        set_position(Vector2(0,size.y - y));
+        set_position(Vector2(0,y));
         myShape->set_a(vertical);
         break;
     case Zone::LEFT:
@@ -51,4 +58,9 @@ void GDBorder::setup(){
     }
 
     shape->set_shape(myShape);
+}
+bool GDBorder::checkOS(){
+    String os = OS::get_singleton()->get_name();
+    Godot::print(os);
+    return os == "Android";
 }
