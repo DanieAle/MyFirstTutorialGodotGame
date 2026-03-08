@@ -34,19 +34,28 @@ void GDControllerTouch::_process(float delta){
 }
 void GDControllerTouch::_input(Ref<InputEvent> event){
     if(android){
-    if (event.is_valid() && event->is_class("InputEventScreenTouch")) {
-        //toque en la pantalla
-        Ref<InputEventScreenTouch> touch = event;
-        if(touch->is_pressed()){
-            isInRange(touch);
-        }
-        else if(!touch->is_pressed()){
-            release();
+        if(event.is_valid()){
+            if (event->is_class("InputEventScreenTouch")) {
+                //toque en la pantalla
+                Ref<InputEventScreenTouch> touch = event;
+                if(touch->is_pressed() && !active){
+                    isInRange(touch);
+                }
+                else if(!touch->is_pressed()){
+                    release();
+                    touch_index = -1;
+                }
+            }
+            if(event->is_class("InputEventScreenDrag")){
+            Ref<InputEventScreenDrag> drag = event;
+            Godot::print(drag->get_position());
+                if(active && drag->get_index() == touch_index){
+                    dragTouch = drag;
+                }
+            }
         }
     }
 }
-}
-
 bool GDControllerTouch::checkOS(){
     String os = OS::get_singleton()->get_name();
     return os == "Android";
@@ -57,8 +66,10 @@ int GDControllerTouch::Operation(int value){
 }
 
 void GDControllerTouch::move(){
+    if(!dragTouch.is_valid()) return;
     if(!active) return;
-    Vector2 mouse_local = base->get_local_mouse_position();
+    Vector2 center_stick = base->get_global_position() + base->get_size() / 1.0;
+    Vector2 mouse_local = dragTouch->get_position() - center_stick;
 
     if(mouse_local.length() > max_radius){
         mouse_local = mouse_local.normalized() * max_radius;
@@ -88,9 +99,10 @@ void GDControllerTouch::isInRange(Ref<InputEventScreenTouch> touch){
     Vector2 center_stick = base->get_global_position() + base->get_size() / 1.0;
     Vector2 local_pos = touch->get_position() - center_stick;
     if(local_pos.length() <= max_radius){
-        active = true;
+        touchplayer =touch;
         set_texture(pressTexture);
-                
+        active = true;
+        touch_index = touch->get_index();
     }
     button_release = false;
 }

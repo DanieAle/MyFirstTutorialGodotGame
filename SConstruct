@@ -11,7 +11,12 @@ opts.Add(EnumVariable(
     "windows",
     allowed_values=("windows", "linux","android")
 ))
-
+opts.Add(EnumVariable(
+    "arch_android",
+    "Target Architecture android",
+    "old",
+    allowed_values=("old","modern")
+))
 opts.Add(EnumVariable(
     "target",
     "Build target",
@@ -86,13 +91,25 @@ if env["platform"] == "android":
     env['OBJSUFFIX'] = '.os'
     env['SHOBJSUFFIX'] = '.os'
     opts.Update(env)
-    android_flags = [
-        "--target=armv7a-linux-androideabi29",
-        "-march=armv7-a",
-        "-mfloat-abi=softfp",
-        "-mfpu=vfpv3-d16",
-        "-fPIC",
-    ]
+
+    if env["arch_android"] == "old":
+        android_flags = [
+            "--target=armv7a-linux-androideabi29",
+            "-march=armv7-a",
+            "-mfloat-abi=softfp",
+            "-mfpu=vfpv3-d16",
+            "-fPIC",
+        ]
+        arch = "armv7"
+    else:
+        android_flags = [
+            "--target=aarch64-linux-android21",
+            "-march=armv8-a",
+            "-fPIC",
+        ]
+        arch = "arm64v8"
+    opts.Update(env)
+    env["target_path"] += arch
     env.Append(CCFLAGS=android_flags)
     env.Append(LINKFLAGS=android_flags) # El linker también necesita el --target
     env.Append(CCFLAGS=["-std=c++17"])
@@ -100,7 +117,6 @@ if env["platform"] == "android":
         env.Append(CCFLAGS=["-Og", "-g"])
     elif env["target"] == "release":
         env.Append(CCFLAGS=["-O3"])
-    arch = "armv7"
 
 env.Append(CPPPATH=[
     env["godot_headers_path"],

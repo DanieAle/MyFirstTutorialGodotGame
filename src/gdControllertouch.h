@@ -4,6 +4,7 @@
 #include <Godot.hpp>
 #include <Sprite.hpp>
 #include <InputEventScreenTouch.hpp>
+#include <InputEventScreenDrag.hpp>
 #include <ResourceLoader.hpp>
 #include <Texture.hpp>
 #include <Control.hpp>
@@ -25,6 +26,9 @@ private:
     float max_radius = 40.0;
     float_t lastpos = 0;
     bool android = false;
+    int64_t touch_index = -1;
+    Ref<InputEventScreenDrag> dragTouch;
+    Ref<InputEventScreenTouch> touchplayer;
 public:
     static void _register_methods();
 
