@@ -1,120 +1,148 @@
-#!python
-import os, subprocess
-
-opts = Variables([], ARGUMENTS)
-
-# Gets the standard flags CC, CCX, etc.
-env = Environment(tools=['mingw'], ENV=os.environ)
-
-# Define our options
-opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
-opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx','android']))
-opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx','android']))
-opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
-opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'MyDodge/native/bin/'))
-opts.Add(PathVariable('target_name', 'The library name.', 'libgdMyMain', PathVariable.PathAccept))
-opts.Add(BoolVariable("use_mingw", "Use MinGW instead of MSVC", False))
-opts.Update(env)
+import os
+from SCons.Script import *
 
 
-# Local dependency paths, adapt them to your setup
-godot_headers_path = "godot-cpp/godot-headers/"
-cpp_bindings_path = "godot-cpp/"
+opts = Variables([],ARGUMENTS)
+
+#options
+opts.Add(EnumVariable(
+    "platform",
+    "Target Platform",
+    "windows",
+    allowed_values=("windows", "linux","android")
+))
+
+opts.Add(EnumVariable(
+    "target",
+    "Build target",
+    "debug",
+    allowed_values=("debug", "release")
+))
+
+opts.Add(BoolVariable(
+    "use_mingw",
+    "Use MinGW instead of MSVC (Windows only)",
+    False
+))
+
+opts.Add(PathVariable(
+    "godot_headers_path",
+    "Path to Godot headers",
+    "godot-cpp/godot-headers",
+    PathVariable.PathIsDir
+))
+
+opts.Add(PathVariable(
+    "godot_cpp_path",
+    "Path to godot-cpp",
+    "godot-cpp",
+    PathVariable.PathIsDir
+))
+opts.Add(PathVariable(
+    'target_path', 
+    'The path where the lib is installed.', 
+    'MyDodge/native/bin/'))
+#Environment
+
+env = Environment(variables=opts)
+ndk = "E:/androidsdk/ndk/25.2.9519653"
+toolchain = ndk + "/toolchains/llvm/prebuilt/windows-x86_64/bin/"
+#selection
+
+if env["platform"] == "windows":
+    if env["use_mingw"]:
+        print("Usando MINGW...")
+        env = Environment(
+            tools=["mingw","gcc","g++", "gnulink","ar"],
+            variables=opts
+        )
+        opts.Update(env)
+    else:
+        print("Usando MSVC....")
+        env = Environment(variables=opts)
+        opts.Update(env)
+
+    if env["target"] == "debug":
+        env.Append(CPPDEFINES=["DEBUG_ENABLED"])
+        env.Append(CCFLAGS=["-g"])
+    else:
+        env.Append(CCFLAGS=["-O3"])
+    arch = "64"
+if env["platform"] == "android":
+    print("Android...")
+    selected_tools = ["gcc", "g++", "gnulink", "ar"]
+    env = Environment(
+        tools=selected_tools,
+        CC=toolchain + "clang",
+        CXX=toolchain + "clang++",
+        LINK=toolchain + "clang++", # IMPORTANTE: El linker debe ser clang++
+        AR=toolchain + "llvm-ar",
+        AS=toolchain + "llvm-as",
+        STRIP=toolchain + "llvm-strip",
+        variables=opts,
+        ENV={'PATH': os.environ['PATH']}
+    )
+    env["CCFLAGS"] = [f for f in env["CCFLAGS"] if not f.startswith('/')]
+    env['OBJSUFFIX'] = '.os'
+    env['SHOBJSUFFIX'] = '.os'
+    opts.Update(env)
+    android_flags = [
+        "--target=armv7a-linux-androideabi29",
+        "-march=armv7-a",
+        "-mfloat-abi=softfp",
+        "-mfpu=vfpv3-d16",
+        "-fPIC",
+    ]
+    env.Append(CCFLAGS=android_flags)
+    env.Append(LINKFLAGS=android_flags) # El linker también necesita el --target
+    env.Append(CCFLAGS=["-std=c++17"])
+    if env["target"] == "debug":
+        env.Append(CCFLAGS=["-Og", "-g"])
+    elif env["target"] == "release":
+        env.Append(CCFLAGS=["-O3"])
+    arch = "armv7"
+
+env.Append(CPPPATH=[
+    env["godot_headers_path"],
+    os.path.join(env["godot_cpp_path"], "include"),
+    os.path.join(env["godot_cpp_path"], "include", "core"),
+    os.path.join(env["godot_cpp_path"], "include", "gen"),
+])
+
+print("Compilador real en uso: " + str(env.subst('$CC')))
+
 cpp_library = "libgodot-cpp"
 
-# only support 64 at this time..
-bits = 64
 
-# Updates the environment with the option variables.
-opts.Update(env)
+cpp_lib = "godot-cpp." + env["platform"] + "." + env["target"] + "." + arch
+env.Append(LIBS=[cpp_lib])
+env.Append(LIBPATH=[
+    os.path.join(env["godot_cpp_path"], "bin")
+])
+env.Append(CPPDEFINES=["GDNATIVE_ENABLED"])
 
-# Process some arguments
-if env['use_llvm']:
-    if env['platform'] == 'andrid':
-        env['CC'] = "armv7a-linux-androideabi29-clang++"
-        env['CXX'] = "armv7a-linux-androideabi29-clang++"
-    else:
-        env['CC'] = 'clang'
-        env['CXX'] = 'clang++'
+#files path to compile
 
-if env['p'] != '':
-    env['platform'] = env['p']
+sources = Glob("src/*.cpp")
 
-if env['platform'] == '':
-    print("No valid target platform selected.")
-    quit();
+# end file to godot library
 
-# Check our platform specifics
-if env['platform'] == "osx":
-    env['target_path'] += 'osx/'
-    cpp_library += '.osx'
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS = ['-g','-O2', '-arch', 'x86_64', '-std=c++17'])
-        env.Append(LINKFLAGS = ['-arch', 'x86_64'])
-    else:
-        env.Append(CCFLAGS = ['-g','-O3', '-arch', 'x86_64', '-std=c++17'])
-        env.Append(LINKFLAGS = ['-arch', 'x86_64'])
+library_name = "libgdMyMain"
 
-elif env['platform'] in ('x11', 'linux'):
-    env['target_path'] += 'x11/'
-    cpp_library += '.linux'
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS = ['-fPIC', '-g3','-Og', '-std=c++17'])
-    else:
-        env.Append(CCFLAGS = ['-fPIC', '-g','-O3', '-std=c++17'])
+if env["platform"] == "windows":
+    env["target_path"] += 'win64/'
+    suffix = ".dll"
+elif env["platform"] == "linux":
+    env["target_path"] += 'x11/'
+    suffix = ".so"
+elif env["platform"] == "android":
+    env["target_path"] += 'android/'
+    suffix = ".so"
 
-elif env['platform'] == "windows":
-    env['target_path'] += 'win64/'
-    cpp_library += '.windows'
-    # This makes sure to keep the session environment variables on windows,
-    # that way you can run scons in a vs 2017 prompt and it will find all the required tools
-    env.Append(ENV = os.environ)
-    if env['use_mingw']:
-        print("Compilando con MinGW")
-        env.Replace(CC='gcc',
-                    CXX='g++')
-        env.Append(CCFLAGS = ['-std=c++17'])
-        env.Append(LINKEDFLAGS = ['-shared'])
-        if env['target'] in ('debug', 'd'):
-            env.Append(CCFLAGS = ['-g', '-O0'])
-        else:
-            env.Append(CCFLAGS = ['-O2', '-DNDEBUG'])
-    else:
-        env.Append(CCFLAGS = ['-DWIN32', '-D_WIN32', '-D_WINDOWS', '-W3', '-GR', '-D_CRT_SECURE_NO_WARNINGS'])
-        if env['target'] in ('debug', 'd'):
-            env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '-MDd'])
-        else:
-            env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
-elif env['platform'] == "android":
-    env['target_path'] += 'android/'
-    cpp_library += '.android'
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS = ['-fPIC', '-g3','-Og', '-std=c++14'])
-    else:
-        env.Append(CCFLAGS = ['-fPIC', '-g','-O3', '-std=c++14'])
-if env['target'] in ('debug', 'd'):
-    cpp_library += '.debug'
-else:
-    cpp_library += '.release'
+env.SharedLibrary(
+    target=env["target_path"] + library_name,
+    source=sources,
+    SHLIBSUFFIX=suffix
+)
 
-if env['platform'] == "android":
-    cpp_library += ".armv7.a"
-else:
-    cpp_library += '.' + str(bits)
-
-
-# make sure our binding library is properly includes
-env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
-env.Append(LIBPATH=[cpp_bindings_path + 'bin/'])
-env.Append(LIBS=[cpp_library])
-
-# tweak this if you want to use different folders, or more folders, to store your source code in.
-env.Append(CPPPATH=['src/'])
-sources = Glob('src/*.cpp')
-
-library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
-
-Default(library)
-
-# Generates help for the -h scons option.
-Help(opts.GenerateHelpText(env))
+print("Finish")
