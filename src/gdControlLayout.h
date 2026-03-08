@@ -29,10 +29,12 @@ public:
     void _ready();
     void _init();
     void _process(float delta);
-    void initialize(bool play);
+    void initialize();
     void win();
+    void startAll();
     void isMoving(Vector2 position);
     void reset();
+    void levelpass(int time);
 };
 
 }

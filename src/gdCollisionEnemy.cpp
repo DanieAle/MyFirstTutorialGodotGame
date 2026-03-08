@@ -130,6 +130,8 @@ void GDCollisionEnemy::isOfScreen(Vector2 position){
     }
 }
 void GDCollisionEnemy::_setEnabled(bool value){
-    enabled = value;
-    confgEnemy();
+    if(!enabled && value || !value){
+        enabled = value;
+        confgEnemy();
+    }
 }

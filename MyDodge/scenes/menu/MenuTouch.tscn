@@ -57,5 +57,4 @@ align = 1
 valign = 1
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 3.0
 one_shot = true
