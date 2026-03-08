@@ -26,6 +26,7 @@ b = Vector2( 0, 0 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
+N.Enemy = null
 
 [node name="ControlLayout" parent="." instance=ExtResource( 1 )]
 margin_right = 420.0
@@ -41,6 +42,7 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource( 4 )
 Zone = 0
+name = "Arriba"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Arriba"]
 position = Vector2( 1, 0 )
@@ -52,6 +54,7 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource( 4 )
 Zone = 1
+name = "Abajo"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Abajo"]
 position = Vector2( -5, 0 )
@@ -62,6 +65,7 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource( 4 )
 Zone = 2
+name = "Izquierda"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Izquierda"]
 position = Vector2( 417, 0 )
@@ -72,6 +76,7 @@ collision_layer = 4
 collision_mask = 0
 script = ExtResource( 4 )
 Zone = 3
+name = "Derecha"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Derecha"]
 position = Vector2( -1, 0 )

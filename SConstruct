@@ -1,9 +1,11 @@
 import os
+import shutil
 from SCons.Script import *
 
 
 opts = Variables([],ARGUMENTS)
-
+gxx_path = shutil.which("g++")
+mingw_bin = os.path.dirname(gxx_path)
 #options
 opts.Add(EnumVariable(
     "platform",
@@ -72,7 +74,13 @@ if env["platform"] == "windows":
         env.Append(CCFLAGS=["-g"])
     else:
         env.Append(CCFLAGS=["-O3"])
+    env.Append(LINKFLAGS=[
+    "-static-libgcc",
+    "-static-libstdc++"
+])
+    opts.Update(env)
     arch = "64"
+
 if env["platform"] == "android":
     print("Android...")
     selected_tools = ["gcc", "g++", "gnulink", "ar"]
@@ -148,6 +156,9 @@ library_name = "libgdMyMain"
 if env["platform"] == "windows":
     env["target_path"] += 'win64/'
     suffix = ".dll"
+    print(mingw_bin)
+    env.Install(env["target_path"], os.path.join(mingw_bin, "libwinpthread-1.dll"))
+    env.Install("MyDodge/build/win64/", os.path.join(mingw_bin, "libwinpthread-1.dll"))
 elif env["platform"] == "linux":
     env["target_path"] += 'x11/'
     suffix = ".so"
