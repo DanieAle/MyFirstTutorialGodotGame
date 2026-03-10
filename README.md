@@ -10,6 +10,8 @@ The player moves using a **virtual joypad**, designed mainly for **Android touch
 The game has been **tested and works on Windows and Android**.
 
 Version: **1.0.0** [Download the latest release](https://github.com/DanieAle/MyFirstTutorialGodotGame/releases/tag/v1.0.0)
+
+![Gameplay](assets/gameplay.gif)
 ---
 
 # Building the Project
